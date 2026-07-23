@@ -1,0 +1,7 @@
+sistem-penggajian/vendor/
+sistem-penggajian/node_modules/
+sistem-penggajian/.env
+sistem-penggajian/storage/logs/*
+sistem-penggajian/storage/framework/cache/*
+sistem-penggajian/storage/framework/sessions/*
+sistem-penggajian/storage/framework/views/*
