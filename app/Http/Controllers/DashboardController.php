@@ -81,7 +81,7 @@ class DashboardController extends Controller
             ->get();
         
         // Top 5 Potongan Terbesar (aktif)
-        $topPotongan = Potongan::where('is_active', true)
+        $topPotongan = Potongan::where('status_aktif', true)
             ->orderByDesc(DB::raw('CASE WHEN jenis_potongan = "nominal" THEN nilai ELSE 0 END'))
             ->take(5)
             ->get();

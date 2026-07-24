@@ -52,7 +52,7 @@ class PenggajianController extends Controller
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
-        return view('penggajians.index', compact('penggajians', 'karyawans'));
+        return view('penggajian.index', compact('penggajians', 'karyawans'));
     }
 
     /**
@@ -66,7 +66,7 @@ class PenggajianController extends Controller
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
-        return view('penggajians.create', compact('karyawans'));
+        return view('penggajian.create', compact('karyawans'));
     }
 
     /**
@@ -84,7 +84,7 @@ class PenggajianController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('penggajians.index')
+                ->route('penggajian.index')
                 ->with('success', 'Data penggajian berhasil dibuat.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -108,7 +108,7 @@ class PenggajianController extends Controller
             'details.potongan'
         ]);
 
-        return view('penggajians.show', compact('penggajian'));
+        return view('penggajian.show', compact('penggajian'));
     }
 
     /**
@@ -119,7 +119,7 @@ class PenggajianController extends Controller
         // BR-06: Penggajian Final/Dibayar tidak dapat diubah langsung
         if ($penggajian->is_terkunci) {
             return redirect()
-                ->route('penggajians.show', $penggajian)
+                ->route('penggajian.show', $penggajian)
                 ->with('error', 'Penggajian dengan status ' . $penggajian->status . ' tidak dapat diubah. Ubah status menjadi draft terlebih dahulu.');
         }
 
@@ -130,7 +130,7 @@ class PenggajianController extends Controller
 
         $penggajian->load(['karyawan', 'details.potongan']);
 
-        return view('penggajians.edit', compact('penggajian', 'karyawans'));
+        return view('penggajian.edit', compact('penggajian', 'karyawans'));
     }
 
     /**
@@ -155,7 +155,7 @@ class PenggajianController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('penggajians.index')
+                ->route('penggajian.index')
                 ->with('success', 'Data penggajian berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -188,7 +188,7 @@ class PenggajianController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('penggajians.index')
+                ->route('penggajian.index')
                 ->with('success', 'Data penggajian berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -229,7 +229,7 @@ class PenggajianController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('penggajians.index', ['periode' => $periode])
+                ->route('penggajian.index', ['periode' => $periode])
                 ->with('success', "Berhasil membuat {$result['created']} penggajian. Dilewati: {$result['skipped']} (sudah ada).");
         } catch (\Exception $e) {
             DB::rollBack();

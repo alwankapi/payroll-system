@@ -21,7 +21,7 @@ class JabatanController extends Controller
             ->orderBy('nama_jabatan', 'asc')
             ->paginate(10);
 
-        return view('jabatans.index', compact('jabatans'));
+        return view('jabatan.index', compact('jabatans'));
     }
 
     /**
@@ -30,7 +30,7 @@ class JabatanController extends Controller
     public function create(): View
     {
         // Authorization sudah ditangani oleh middleware CheckRole
-        return view('jabatans.create');
+        return view('jabatan.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class JabatanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('jabatans.index')
+                ->route('jabatan.index')
                 ->with('success', 'Data jabatan berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -68,7 +68,7 @@ class JabatanController extends Controller
             $query->orderBy('nama_lengkap', 'asc');
         }]);
 
-        return view('jabatans.show', compact('jabatan'));
+        return view('jabatan.show', compact('jabatan'));
     }
 
     /**
@@ -76,7 +76,7 @@ class JabatanController extends Controller
      */
     public function edit(Jabatan $jabatan): View
     {
-        return view('jabatans.edit', compact('jabatan'));
+        return view('jabatan.edit', compact('jabatan'));
     }
 
     /**
@@ -92,7 +92,7 @@ class JabatanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('jabatans.index')
+                ->route('jabatan.index')
                 ->with('success', 'Data jabatan berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -128,7 +128,7 @@ class JabatanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('jabatans.index')
+                ->route('jabatan.index')
                 ->with('success', 'Data jabatan berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();

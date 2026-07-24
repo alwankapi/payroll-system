@@ -27,7 +27,7 @@ class PotonganController extends Controller
             ->orderBy('nama_potongan', 'asc')
             ->paginate(15);
 
-        return view('potongans.index', compact('potongans'));
+        return view('potongan.index', compact('potongans'));
     }
 
     /**
@@ -35,7 +35,7 @@ class PotonganController extends Controller
      */
     public function create(): View
     {
-        return view('potongans.create');
+        return view('potongan.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class PotonganController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('potongans.index')
+                ->route('potongan.index')
                 ->with('success', 'Data potongan berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -71,7 +71,7 @@ class PotonganController extends Controller
         // Eager loading riwayat penggunaan potongan
         $potongan->loadCount('penggajianDetails');
 
-        return view('potongans.show', compact('potongan'));
+        return view('potongan.show', compact('potongan'));
     }
 
     /**
@@ -79,7 +79,7 @@ class PotonganController extends Controller
      */
     public function edit(Potongan $potongan): View
     {
-        return view('potongans.edit', compact('potongan'));
+        return view('potongan.edit', compact('potongan'));
     }
 
     /**
@@ -95,7 +95,7 @@ class PotonganController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('potongans.index')
+                ->route('potongan.index')
                 ->with('success', 'Data potongan berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -129,7 +129,7 @@ class PotonganController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('potongans.index')
+                ->route('potongan.index')
                 ->with('success', 'Data potongan berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();

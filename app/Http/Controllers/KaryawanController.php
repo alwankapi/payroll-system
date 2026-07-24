@@ -39,7 +39,7 @@ class KaryawanController extends Controller
         // Data untuk filter
         $jabatans = Jabatan::orderBy('nama_jabatan', 'asc')->get();
 
-        return view('karyawans.index', compact('karyawans', 'jabatans'));
+        return view('karyawan.index', compact('karyawans', 'jabatans'));
     }
 
     /**
@@ -55,7 +55,7 @@ class KaryawanController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        return view('karyawans.create', compact('jabatans', 'availableUsers'));
+        return view('karyawan.create', compact('jabatans', 'availableUsers'));
     }
 
     /**
@@ -72,7 +72,7 @@ class KaryawanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('karyawans.index')
+                ->route('karyawan.index')
                 ->with('success', 'Data karyawan berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -98,7 +98,7 @@ class KaryawanController extends Controller
             }
         ]);
 
-        return view('karyawans.show', compact('karyawan'));
+        return view('karyawan.show', compact('karyawan'));
     }
 
     /**
@@ -117,7 +117,7 @@ class KaryawanController extends Controller
         ->orderBy('name', 'asc')
         ->get();
 
-        return view('karyawans.edit', compact('karyawan', 'jabatans', 'availableUsers'));
+        return view('karyawan.edit', compact('karyawan', 'jabatans', 'availableUsers'));
     }
 
     /**
@@ -133,7 +133,7 @@ class KaryawanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('karyawans.index')
+                ->route('karyawan.index')
                 ->with('success', 'Data karyawan berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -168,7 +168,7 @@ class KaryawanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('karyawans.index')
+                ->route('karyawan.index')
                 ->with('success', 'Data karyawan berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
