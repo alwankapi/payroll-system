@@ -106,6 +106,19 @@
                     </li>
                 </ul>
             </li>
+            
+            <!-- Laporan -->
+            <li>
+                <a href="{{ route('laporan.index') }}" 
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('laporan.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {{ request()->routeIs('laporan.*') ? 'text-gray-900 dark:text-white' : '' }}" 
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-3">Laporan</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

@@ -6,6 +6,8 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\PotonganController;
 use App\Http\Controllers\PenggajianController;
+use App\Http\Controllers\SlipGajiController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +89,44 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         // PATCH: Update status penggajian (draft -> final -> dibayar)
         Route::patch('{penggajian}/update-status', [PenggajianController::class, 'updateStatus'])
             ->name('updateStatus');
+    });
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Slip Gaji PDF Routes
+    |--------------------------------------------------------------------------
+    */
+    
+    // Slip Gaji Routes
+    Route::prefix('slip-gaji')->name('slip-gaji.')->group(function () {
+        // GET: Preview slip gaji PDF di browser
+        Route::get('{penggajian}/preview', [SlipGajiController::class, 'preview'])
+            ->name('preview');
+        
+        // GET: Download slip gaji PDF
+        Route::get('{penggajian}/download', [SlipGajiController::class, 'download'])
+            ->name('download');
+    });
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Laporan Routes
+    |--------------------------------------------------------------------------
+    */
+    
+    // Laporan Routes
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        // GET: Show laporan page
+        Route::get('/', [LaporanController::class, 'index'])
+            ->name('index');
+        
+        // GET: Export laporan to PDF
+        Route::get('/export-pdf', [LaporanController::class, 'exportPdf'])
+            ->name('exportPdf');
+        
+        // GET: Export laporan to Excel
+        Route::get('/export-excel', [LaporanController::class, 'exportExcel'])
+            ->name('exportExcel');
     });
 });
 
