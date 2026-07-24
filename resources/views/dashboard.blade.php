@@ -233,10 +233,10 @@
             new Chart(penggajianCtx, {
                 type: 'line',
                 data: {
-                    labels: {composer require maatwebsite/excel json_encode($chartData->pluck('month')) !!},
+                    labels: {!! json_encode(array_column($chartData, 'month')) !!},
                     datasets: [{
                         label: 'Total Gaji Bersih',
-                        data: {composer require maatwebsite/excel json_encode($chartData->pluck('total')) !!},
+                        data: {!! json_encode(array_column($chartData, 'total')) !!},
                         borderColor: 'rgb(59, 130, 246)',
                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
                         tension: 0.4,

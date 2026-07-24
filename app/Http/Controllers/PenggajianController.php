@@ -204,7 +204,7 @@ class PenggajianController extends Controller
      */
     public function generateBulk(): View
     {
-        return view('penggajians.generate-bulk');
+        return view('penggajian.generate-bulk');
     }
 
     /**

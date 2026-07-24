@@ -136,7 +136,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                    <a href="{{ route('penggajians.show', $penggajian) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">Lihat Detail</a>
+                                    <a href="{{ route('penggajian.show', $penggajian) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">Lihat Detail</a>
                                 </td>
                             </tr>
                             @endforeach

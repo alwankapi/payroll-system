@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public route
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Dashboard route - requires auth & verified
@@ -73,10 +73,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     |--------------------------------------------------------------------------
     */
     
-    // Penggajian Resource Routes
-    Route::resource('penggajian', PenggajianController::class);
-    
-    // Custom Penggajian Routes - Generate Bulk
+    // Custom Penggajian Routes - Generate Bulk (must be before resource to avoid {penggajian} catch)
     Route::prefix('penggajian')->name('penggajian.')->group(function () {
         // GET: Show form generate bulk penggajian
         Route::get('generate-bulk', [PenggajianController::class, 'generateBulk'])
@@ -90,6 +87,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::patch('{penggajian}/update-status', [PenggajianController::class, 'updateStatus'])
             ->name('updateStatus');
     });
+    
+    // Penggajian Resource Routes
+    Route::resource('penggajian', PenggajianController::class);
     
     /*
     |--------------------------------------------------------------------------
