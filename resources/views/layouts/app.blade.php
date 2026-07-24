@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
     x-data="{ 
-        darkMode: localStorage.getItem('darkMode') === 'true',
+        darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
         sidebarOpen: false 
     }" 
     x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))" 
