@@ -49,7 +49,7 @@
 
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Email <span class="text-red-500">*</span>
+                            Email (Akun Login) <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}" required
                             class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('email') border-red-500 @enderror"
@@ -57,6 +57,7 @@
                         @error('email')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Email akan digunakan sebagai username untuk login karyawan</p>
                     </div>
 
                     <div>
@@ -90,31 +91,37 @@
                     </div>
 
                     <div>
-                        <label for="user_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Akun Login <span class="text-red-500">*</span>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Password (Opsional)
                         </label>
-                        <select name="user_id" id="user_id" required
-                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('user_id') border-red-500 @enderror">
-                            <option value="">Pilih Akun Login</option>
-                            @foreach($availableUsers as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->email }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('user_id')
+                        <input type="password" name="password" id="password" value="{{ old('password') }}"
+                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('password') border-red-500 @enderror"
+                            placeholder="Kosongkan untuk menggunakan password default">
+                        @error('password')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Hanya menampilkan akun karyawan yang belum terhubung</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Jika dikosongkan, akan menggunakan password default: <strong>password123</strong></p>
                     </div>
 
                     <div>
-                        <label for="tanggal_bergabung" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Tanggal Bergabung <span class="text-red-500">*</span>
+                        <label for="tanggal_masuk" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Tanggal Masuk <span class="text-red-500">*</span>
                         </label>
-                        <input type="date" name="tanggal_bergabung" id="tanggal_bergabung" value="{{ old('tanggal_bergabung') }}" required
-                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('tanggal_bergabung') border-red-500 @enderror">
-                        @error('tanggal_bergabung')
+                        <input type="date" name="tanggal_masuk" id="tanggal_masuk" value="{{ old('tanggal_masuk') }}" required
+                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('tanggal_masuk') border-red-500 @enderror">
+                        @error('tanggal_masuk')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="no_rekening" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            No. Rekening
+                        </label>
+                        <input type="text" name="no_rekening" id="no_rekening" value="{{ old('no_rekening') }}"
+                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('no_rekening') border-red-500 @enderror"
+                            placeholder="Contoh: 1234567890">
+                        @error('no_rekening')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>

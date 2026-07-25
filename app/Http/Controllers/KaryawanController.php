@@ -49,14 +49,8 @@ class KaryawanController extends Controller
     public function create(): View
     {
         $jabatans = Jabatan::orderBy('nama_jabatan', 'asc')->get();
-        
-        // Get users yang belum terhubung ke karyawan
-        $availableUsers = User::whereDoesntHave('karyawan')
-            ->where('role', 'karyawan')
-            ->orderBy('name', 'asc')
-            ->get();
 
-        return view('karyawan.create', compact('jabatans', 'availableUsers'));
+        return view('karyawan.create', compact('jabatans'));
     }
 
     /**
@@ -67,14 +61,39 @@ class KaryawanController extends Controller
         try {
             DB::beginTransaction();
 
-            // BR-11: Akun login terhubung ke satu data Karyawan
-            $karyawan = Karyawan::create($request->validated());
+            // Step 1: Buat akun User terlebih dahulu
+            $password = $request->input('password') ?: 'password123'; // Default password jika tidak diisi
+            
+            $user = User::create([
+                'name' => $request->input('nama_lengkap'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($password),
+                'role' => 'karyawan',
+            ]);
+
+            // Step 2: Buat data Karyawan dengan user_id yang baru dibuat
+            $karyawan = Karyawan::create([
+                'user_id' => $user->id,
+                'jabatan_id' => $request->input('jabatan_id'),
+                'nik' => $request->input('nik'),
+                'nama_lengkap' => $request->input('nama_lengkap'),
+                'alamat' => $request->input('alamat'),
+                'no_telepon' => $request->input('no_telepon'),
+                'tanggal_masuk' => $request->input('tanggal_masuk'),
+                'no_rekening' => $request->input('no_rekening'),
+                'status_karyawan' => $request->input('status_karyawan'),
+            ]);
 
             DB::commit();
 
+            $message = 'Data karyawan berhasil ditambahkan.';
+            if (!$request->input('password')) {
+                $message .= ' Akun login dibuat dengan password default: password123';
+            }
+
             return redirect()
                 ->route('karyawan.index')
-                ->with('success', 'Data karyawan berhasil ditambahkan.');
+                ->with('success', $message);
         } catch (\Exception $e) {
             DB::rollBack();
 

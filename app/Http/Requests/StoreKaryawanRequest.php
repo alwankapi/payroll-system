@@ -23,12 +23,21 @@ class StoreKaryawanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => [
+            // Data akun login - akan dibuat otomatis
+            'email' => [
                 'required',
-                'integer',
-                'exists:users,id',
-                'unique:karyawans,user_id',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email',
             ],
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+            ],
+            
+            // Data karyawan
             'jabatan_id' => [
                 'required',
                 'integer',
@@ -79,7 +88,8 @@ class StoreKaryawanRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user_id' => 'User',
+            'email' => 'Email',
+            'password' => 'Password',
             'jabatan_id' => 'Jabatan',
             'nik' => 'NIK',
             'nama_lengkap' => 'Nama Lengkap',
@@ -99,9 +109,10 @@ class StoreKaryawanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'user_id.required' => ':attribute wajib dipilih.',
-            'user_id.exists' => ':attribute tidak valid.',
-            'user_id.unique' => ':attribute sudah terhubung dengan karyawan lain.',
+            'email.required' => ':attribute wajib diisi.',
+            'email.email' => ':attribute harus berupa alamat email yang valid.',
+            'email.unique' => ':attribute sudah terdaftar.',
+            'password.min' => ':attribute minimal :min karakter.',
             'jabatan_id.required' => ':attribute wajib dipilih.',
             'jabatan_id.exists' => ':attribute tidak valid.',
             'nik.required' => ':attribute wajib diisi.',
