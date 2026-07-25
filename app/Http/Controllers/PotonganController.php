@@ -25,7 +25,8 @@ class PotonganController extends Controller
                 return $query->where('jenis_potongan', $jenis);
             })
             ->orderBy('nama_potongan', 'asc')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
         return view('potongan.index', compact('potongans'));
     }

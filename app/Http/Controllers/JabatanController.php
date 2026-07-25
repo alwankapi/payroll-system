@@ -18,8 +18,12 @@ class JabatanController extends Controller
     {
         // Eager loading untuk menghitung jumlah karyawan per jabatan
         $jabatans = Jabatan::withCount('karyawans')
+            ->when(request('search'), function ($query, $search) {
+                return $query->where('nama_jabatan', 'like', "%{$search}%");
+            })
             ->orderBy('nama_jabatan', 'asc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('jabatan.index', compact('jabatans'));
     }

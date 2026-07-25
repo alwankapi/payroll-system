@@ -14,10 +14,21 @@ class DashboardController extends Controller
 {
     /**
      * Display dashboard with statistics and widgets
+     * 
+     * FR-07: Dashboard terpisah untuk Admin dan Karyawan
+     * Admin: Lihat semua data dan statistik lengkap
+     * Karyawan: Hanya lihat data penggajian milik sendiri (BR-02)
      */
     public function index()
     {
-        // Get current month for filtering
+        $user = auth()->user();
+        
+        // Jika Karyawan, tampilkan dashboard khusus karyawan
+        if ($user->role === 'karyawan') {
+            return $this->karyawanDashboard();
+        }
+        
+        // Admin Dashboard - Get current month for filtering
         $currentMonth = Carbon::now()->format('Y-m-01');
         
         // Statistics Cards
@@ -134,6 +145,75 @@ class DashboardController extends Controller
             'topJabatan',
             'topPotongan',
             'recentActivities'
+        ));
+    }
+
+    /**
+     * Dashboard khusus untuk Karyawan
+     * 
+     * Menampilkan hanya data penggajian milik karyawan yang login (BR-02, FR-07, FR-12)
+     */
+    private function karyawanDashboard()
+    {
+        $user = auth()->user();
+        
+        // Pastikan user punya data karyawan
+        if (!$user->karyawan) {
+            return view('dashboard')->with('error', 'Data karyawan tidak ditemukan untuk akun Anda.');
+        }
+        
+        $karyawan = $user->karyawan->load('jabatan');
+        
+        // Statistik penggajian karyawan ini
+        $totalPenggajian = Penggajian::where('karyawan_id', $karyawan->id)->count();
+        
+        // Total gaji yang sudah diterima (status dibayar)
+        $totalGajiDiterima = Penggajian::where('karyawan_id', $karyawan->id)
+            ->where('status', 'dibayar')
+            ->sum('gaji_bersih');
+        
+        // Gaji bulan ini
+        $gajiBulanIni = Penggajian::where('karyawan_id', $karyawan->id)
+            ->whereYear('periode', Carbon::now()->year)
+            ->whereMonth('periode', Carbon::now()->month)
+            ->first();
+        
+        // Riwayat penggajian (last 6 months)
+        $riwayatPenggajian = Penggajian::where('karyawan_id', $karyawan->id)
+            ->orderBy('periode', 'desc')
+            ->take(6)
+            ->get();
+        
+        // Chart data: Gaji per bulan (last 6 months)
+        $chartData = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $penggajian = Penggajian::where('karyawan_id', $karyawan->id)
+                ->whereYear('periode', $date->year)
+                ->whereMonth('periode', $date->month)
+                ->first();
+            
+            $chartData[] = [
+                'month' => $date->translatedFormat('M Y'),
+                'total' => $penggajian ? $penggajian->gaji_bersih : 0,
+            ];
+        }
+        
+        // Statistik status penggajian karyawan ini
+        $statusStats = [
+            'draft' => Penggajian::where('karyawan_id', $karyawan->id)->where('status', 'draft')->count(),
+            'final' => Penggajian::where('karyawan_id', $karyawan->id)->where('status', 'final')->count(),
+            'dibayar' => Penggajian::where('karyawan_id', $karyawan->id)->where('status', 'dibayar')->count(),
+        ];
+        
+        return view('dashboard-karyawan', compact(
+            'karyawan',
+            'totalPenggajian',
+            'totalGajiDiterima',
+            'gajiBulanIni',
+            'riwayatPenggajian',
+            'chartData',
+            'statusStats'
         ));
     }
 }

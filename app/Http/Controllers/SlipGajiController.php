@@ -18,11 +18,21 @@ class SlipGajiController extends Controller
 
     /**
      * Download slip gaji sebagai PDF
+     * 
+     * Authorization: Admin dapat akses semua, Karyawan hanya milik sendiri (BR-02, FR-32, FR-33)
      */
     public function download(Penggajian $penggajian)
     {
-        // Authorize: admin atau karyawan yang bersangkutan
-        Gate::authorize('view', $penggajian);
+        // Authorization manual: admin atau karyawan yang bersangkutan
+        $user = auth()->user();
+        
+        // Admin bisa akses semua slip gaji
+        if ($user->role !== 'admin') {
+            // Karyawan hanya bisa akses slip gaji milik sendiri
+            if (!$user->karyawan || $user->karyawan->id !== $penggajian->karyawan_id) {
+                abort(403, 'Anda tidak memiliki akses ke slip gaji ini.');
+            }
+        }
 
         // Validasi: hanya penggajian final/dibayar yang bisa dicetak
         if (!$this->slipGajiService->canPrintSlipGaji($penggajian)) {
@@ -38,11 +48,21 @@ class SlipGajiController extends Controller
 
     /**
      * Stream/preview slip gaji di browser
+     * 
+     * Authorization: Admin dapat akses semua, Karyawan hanya milik sendiri (BR-02, FR-32, FR-33)
      */
     public function preview(Penggajian $penggajian)
     {
-        // Authorize: admin atau karyawan yang bersangkutan
-        Gate::authorize('view', $penggajian);
+        // Authorization manual: admin atau karyawan yang bersangkutan
+        $user = auth()->user();
+        
+        // Admin bisa akses semua slip gaji
+        if ($user->role !== 'admin') {
+            // Karyawan hanya bisa akses slip gaji milik sendiri
+            if (!$user->karyawan || $user->karyawan->id !== $penggajian->karyawan_id) {
+                abort(403, 'Anda tidak memiliki akses ke slip gaji ini.');
+            }
+        }
 
         // Validasi: hanya penggajian final/dibayar yang bisa dicetak
         if (!$this->slipGajiService->canPrintSlipGaji($penggajian)) {

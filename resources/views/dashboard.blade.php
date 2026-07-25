@@ -93,17 +93,21 @@
     </div>
 
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
         <!-- Line Chart: Penggajian Bulanan -->
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Penggajian Bulanan (6 Bulan Terakhir)</h3>
-            <canvas id="penggajianChart" class="w-full" height="250"></canvas>
+            <div class="h-80">
+                <canvas id="penggajianChart"></canvas>
+            </div>
         </div>
 
         <!-- Pie Chart: Status Penggajian -->
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Status Penggajian</h3>
-            <canvas id="statusChart" class="w-full" height="250"></canvas>
+            <div class="h-80">
+                <canvas id="statusChart"></canvas>
+            </div>
         </div>
     </div>
 
@@ -159,15 +163,15 @@
     </div>
 
     <!-- Top 5 & Activities Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Top 5 Jabatan -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6 flex flex-col">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top 5 Jabatan (Gaji Terbesar)</h3>
-            <div class="space-y-3">
+            <div class="space-y-3 flex-1 overflow-y-auto max-h-72">
                 @forelse($topJabatan as $jabatan)
                 <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-700 dark:text-gray-300">{{ $jabatan->nama_jabatan }}</span>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">Rp {{ number_format($jabatan->total_gaji, 0, ',', '.') }}</span>
+                    <span class="text-sm text-gray-700 dark:text-gray-300 truncate mr-2">{{ $jabatan->nama_jabatan }}</span>
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">Rp {{ number_format($jabatan->total_gaji, 0, ',', '.') }}</span>
                 </div>
                 @empty
                 <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">Belum ada data</p>
@@ -176,16 +180,16 @@
         </div>
 
         <!-- Top 5 Potongan -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6 flex flex-col">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top 5 Potongan (Aktif)</h3>
-            <div class="space-y-3">
+            <div class="space-y-3 flex-1 overflow-y-auto max-h-72">
                 @forelse($topPotongan as $potongan)
                 <div class="flex justify-between items-center">
-                    <div class="flex-1">
-                        <div class="text-sm text-gray-700 dark:text-gray-300">{{ $potongan->nama_potongan }}</div>
+                    <div class="flex-1 min-w-0 mr-2">
+                        <div class="text-sm text-gray-700 dark:text-gray-300 truncate">{{ $potongan->nama_potongan }}</div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ ucfirst($potongan->jenis_potongan) }}</div>
                     </div>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">
                         @if($potongan->jenis_potongan === 'nominal')
                             Rp {{ number_format($potongan->nilai, 0, ',', '.') }}
                         @else
@@ -200,9 +204,9 @@
         </div>
 
         <!-- Recent Activities -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6 flex flex-col">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Aktivitas Terbaru</h3>
-            <div class="space-y-3">
+            <div class="space-y-3 flex-1 overflow-y-auto max-h-72">
                 @forelse($recentActivities as $activity)
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
@@ -212,8 +216,8 @@
                             <div class="w-2 h-2 bg-green-500 rounded-full mt-1.5"></div>
                         @endif
                     </div>
-                    <div class="ml-3 flex-1">
-                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $activity['description'] }}</p>
+                    <div class="ml-3 flex-1 min-w-0">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{{ $activity['description'] }}</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $activity['time']->diffForHumans() }}</p>
                     </div>
                 </div>

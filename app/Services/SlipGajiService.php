@@ -10,6 +10,10 @@ class SlipGajiService
 {
     /**
      * Generate slip gaji PDF untuk penggajian tertentu
+     * 
+     * @param Penggajian $penggajian Model penggajian yang akan digenerate
+     * @return \Barryvdh\DomPDF\PDF PDF instance
+     * @throws \Exception Jika gagal generate PDF
      */
     public function generateSlipGaji(Penggajian $penggajian)
     {

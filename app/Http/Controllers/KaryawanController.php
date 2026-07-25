@@ -34,7 +34,8 @@ class KaryawanController extends Controller
                 });
             })
             ->orderBy('nama_lengkap', 'asc')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
         // Data untuk filter
         $jabatans = Jabatan::orderBy('nama_jabatan', 'asc')->get();

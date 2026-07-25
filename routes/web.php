@@ -40,6 +40,30 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Karyawan Routes
+|--------------------------------------------------------------------------
+|
+| Route untuk Karyawan (FR-40):
+| - Lihat slip gaji milik sendiri (FR-32, FR-33)
+| - Download/preview slip gaji yang sudah final/dibayar
+|
+*/
+
+Route::middleware(['auth', 'verified', 'role:karyawan'])->group(function () {
+    // Slip Gaji Routes untuk Karyawan (hanya milik sendiri)
+    Route::prefix('slip-gaji')->name('slip-gaji.')->group(function () {
+        // GET: Preview slip gaji PDF di browser
+        Route::get('{penggajian}/preview', [SlipGajiController::class, 'preview'])
+            ->name('preview');
+        
+        // GET: Download slip gaji PDF
+        Route::get('{penggajian}/download', [SlipGajiController::class, 'download'])
+            ->name('download');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
 | Admin Routes - Sistem Penggajian
 |--------------------------------------------------------------------------
 |

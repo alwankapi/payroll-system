@@ -45,7 +45,8 @@ class PenggajianController extends Controller
             })
             ->orderBy('periode', 'desc')
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(20)
+            ->withQueryString();
 
         // Data untuk filter
         $karyawans = Karyawan::with('jabatan')
