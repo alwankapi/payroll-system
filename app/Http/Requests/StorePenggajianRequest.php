@@ -64,7 +64,7 @@ class StorePenggajianRequest extends FormRequest
             ],
             'status' => [
                 'required',
-                'in:draft,final,dibayar',
+                'in:draft,diproses,disetujui,dibayar,ditolak,dibatalkan',
             ],
             'tanggal_bayar' => [
                 'nullable',

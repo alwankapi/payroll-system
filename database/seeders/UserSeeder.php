@@ -21,8 +21,31 @@ class UserSeeder extends Seeder
         );
 
         $namaKaryawan = [
-            'Budi Santoso', 'Siti Nurhaliza', 'Agus Wijaya', 'Dewi Lestari', 'Rudi Hartono',
-            'Rina Marlina', 'Eko Prasetyo', 'Fitri Handayani', 'Joko Susilo', 'Wulan Sari',
+            'Andi Saputra',
+            'Budi Santoso',
+            'Citra Lestari',
+            'Deni Pratama',
+            'Eka Putri',
+            'Fajar Hidayat',
+            'Gita Permata',
+            'Hendra Wijaya',
+            'Indah Sari',
+            'Joko Susilo',
+            'Kartika Dewi',
+            'Lukman Hakim',
+            'Maya Anggraini',
+            'Nanda Firmansyah',
+            'Oktavia Ningsih',
+            'Pandu Setiawan',
+            'Qory Sandrina',
+            'Rina Marlina',
+            'Siti Nurhaliza',
+            'Tono Suryanto',
+            'Umar Bakri',
+            'Vina Melinda',
+            'Wulan Sari',
+            'Yusuf Maulana',
+            'Zahra Kamila',
         ];
 
         foreach ($namaKaryawan as $index => $nama) {

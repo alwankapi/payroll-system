@@ -28,8 +28,11 @@
                     <select name="status" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                         <option value="">Semua Status</option>
                         <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
-                        <option value="final" {{ request('status') === 'final' ? 'selected' : '' }}>Final</option>
+                        <option value="diproses" {{ request('status') === 'diproses' ? 'selected' : '' }}>Diproses</option>
+                        <option value="disetujui" {{ request('status') === 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                         <option value="dibayar" {{ request('status') === 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+                        <option value="ditolak" {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        <option value="dibatalkan" {{ request('status') === 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                     </select>
                 </div>
                 <div class="flex gap-2">
@@ -121,13 +124,9 @@
                                 Rp {{ number_format($penggajian->gaji_bersih, 0, ',', '.') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($penggajian->status === 'draft')
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">Draft</span>
-                                @elseif($penggajian->status === 'final')
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Final</span>
-                                @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Dibayar</span>
-                                @endif
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $penggajian->status_badge_class }}">
+                                    {{ $penggajian->status_label }}
+                                </span>
                             </td>
                         </tr>
                         @empty

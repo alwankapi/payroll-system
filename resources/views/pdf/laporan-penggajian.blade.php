@@ -23,8 +23,12 @@
         .text-center { text-align: center; }
         .badge { padding: 3px 8px; border-radius: 3px; font-size: 8px; font-weight: bold; display: inline-block; }
         .badge-draft { background: #E5E7EB; color: #1F2937; }
-        .badge-final { background: #DBEAFE; color: #1E40AF; }
-        .badge-dibayar { background: #D1FAE5; color: #065F46; }
+        .badge-diproses { background: #DBEAFE; color: #1E40AF; }
+        .badge-disetujui { background: #D1FAE5; color: #065F46; }
+        .badge-dibayar { background: #A7F3D0; color: #065F46; }
+        .badge-ditolak { background: #FEE2E2; color: #991B1B; }
+        .badge-dibatalkan { background: #FED7AA; color: #9A3412; }
+        .detail-potongan { margin-top: 3px; padding: 3px 5px; background: #f9f9f9; font-size: 8px; border-left: 2px solid #4F46E5; }
         .footer { margin-top: 30px; text-align: center; font-size: 9px; color: #666; border-top: 1px solid #ddd; padding-top: 10px; }
     </style>
 </head>
@@ -89,15 +93,16 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th width="4%">No</th>
-                    <th width="12%">NIK</th>
-                    <th width="18%">Nama Karyawan</th>
-                    <th width="14%">Jabatan</th>
-                    <th width="10%">Periode</th>
-                    <th width="11%" class="text-right">Gaji Pokok</th>
-                    <th width="10%" class="text-right">Tunjangan</th>
-                    <th width="10%" class="text-right">Potongan</th>
-                    <th width="11%" class="text-right">Gaji Bersih</th>
+                    <th width="3%">No</th>
+                    <th width="10%">NIK</th>
+                    <th width="15%">Nama Karyawan</th>
+                    <th width="12%">Jabatan</th>
+                    <th width="8%">Periode</th>
+                    <th width="10%" class="text-right">Gaji Pokok</th>
+                    <th width="9%" class="text-right">Tunjangan</th>
+                    <th width="9%" class="text-right">Gaji Kotor</th>
+                    <th width="15%">Rincian Potongan</th>
+                    <th width="9%" class="text-right">Gaji Bersih</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,13 +115,31 @@
                     <td>{{ \Carbon\Carbon::parse($penggajian->periode)->format('M Y') }}</td>
                     <td class="text-right">{{ number_format($penggajian->gaji_pokok, 0, ',', '.') }}</td>
                     <td class="text-right">{{ number_format($penggajian->tunjangan, 0, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($penggajian->total_potongan, 0, ',', '.') }}</td>
+                    <td class="text-right">{{ number_format($penggajian->gaji_pokok + $penggajian->tunjangan, 0, ',', '.') }}</td>
+                    <td style="font-size: 8px;">
+                        @if($penggajian->details && $penggajian->details->count() > 0)
+                            @foreach($penggajian->details as $detail)
+                                <div class="detail-potongan">
+                                    <strong>{{ $detail->nama_potongan }}</strong><br>
+                                    @if($detail->potongan)
+                                        <em>{{ ucfirst($detail->potongan->jenis_potongan) }}</em><br>
+                                    @endif
+                                    Rp {{ number_format($detail->nilai_potongan, 0, ',', '.') }}
+                                </div>
+                            @endforeach
+                            <div style="margin-top: 3px; padding-top: 3px; border-top: 1px solid #ddd;">
+                                <strong>Total: Rp {{ number_format($penggajian->total_potongan, 0, ',', '.') }}</strong>
+                            </div>
+                        @else
+                            <em style="color: #999;">Tidak ada potongan</em>
+                        @endif
+                    </td>
                     <td class="text-right"><strong>{{ number_format($penggajian->gaji_bersih, 0, ',', '.') }}</strong></td>
                 </tr>
                 @endforeach
                 @if($penggajians->count() == 0)
                 <tr>
-                    <td colspan="9" class="text-center" style="padding: 20px;">Tidak ada data</td>
+                    <td colspan="10" class="text-center" style="padding: 20px;">Tidak ada data</td>
                 </tr>
                 @endif
             </tbody>

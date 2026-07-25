@@ -78,6 +78,29 @@
                     @error('potongan_ids')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status <span class="text-red-500">*</span></label>
+                        <select name="status" id="status" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('status') border-red-500 @enderror">
+                            <option value="draft" {{ old('status', $penggajian->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="diproses" {{ old('status', $penggajian->status) == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                            <option value="disetujui" {{ old('status', $penggajian->status) == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="dibayar" {{ old('status', $penggajian->status) == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+                            <option value="ditolak" {{ old('status', $penggajian->status) == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                            <option value="dibatalkan" {{ old('status', $penggajian->status) == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                        </select>
+                        @error('status')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Status saat ini: <span class="font-semibold">{{ ucfirst($penggajian->status) }}</span></p>
+                    </div>
+
+                    <div>
+                        <label for="tanggal_bayar" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tanggal Bayar</label>
+                        <input type="date" name="tanggal_bayar" id="tanggal_bayar" value="{{ old('tanggal_bayar', $penggajian->tanggal_bayar ? $penggajian->tanggal_bayar->format('Y-m-d') : '') }}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('tanggal_bayar') border-red-500 @enderror">
+                        @error('tanggal_bayar')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Wajib diisi jika status Dibayar</p>
+                    </div>
+                </div>
+
                 <div>
                     <label for="catatan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Catatan</label>
                     <textarea name="catatan" id="catatan" rows="3" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">{{ old('catatan', $penggajian->catatan) }}</textarea>
