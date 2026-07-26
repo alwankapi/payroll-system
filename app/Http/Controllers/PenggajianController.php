@@ -67,7 +67,10 @@ class PenggajianController extends Controller
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
-        return view('penggajian.create', compact('karyawans'));
+        // Ambil semua potongan untuk checkbox
+        $potongans = \App\Models\Potongan::orderBy('nama_potongan', 'asc')->get();
+
+        return view('penggajian.create', compact('karyawans', 'potongans'));
     }
 
     /**
@@ -129,9 +132,12 @@ class PenggajianController extends Controller
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
-        $penggajian->load(['karyawan', 'details.potongan']);
+        // Ambil semua potongan untuk checkbox
+        $potongans = \App\Models\Potongan::orderBy('nama_potongan', 'asc')->get();
 
-        return view('penggajian.edit', compact('penggajian', 'karyawans'));
+        $penggajian->load(['karyawan', 'potongans']);
+
+        return view('penggajian.edit', compact('penggajian', 'karyawans', 'potongans'));
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('tunjangan', 15, 2)->unsigned()->default(0);
             $table->decimal('total_potongan', 15, 2)->unsigned()->default(0);
             $table->decimal('gaji_bersih', 15, 2)->unsigned()->default(0);
-            $table->enum('status', ['draft', 'final', 'dibayar'])->default('draft');
+            $table->string('status', 20)->default('draft');
             $table->date('tanggal_bayar')->nullable();
             $table->timestamps();
 

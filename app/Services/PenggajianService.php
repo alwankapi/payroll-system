@@ -307,9 +307,10 @@ class PenggajianService
      */
     public function updateStatus(Penggajian $penggajian, string $status): Penggajian
     {
-        // Validasi status value
-        if (!in_array($status, ['draft', 'final', 'dibayar'])) {
-            throw new Exception('Status tidak valid. Harus: draft, final, atau dibayar.');
+        // Validasi status value - support 6 status
+        $validStatuses = ['draft', 'diproses', 'disetujui', 'dibayar', 'ditolak', 'dibatalkan'];
+        if (!in_array($status, $validStatuses)) {
+            throw new Exception('Status tidak valid. Harus salah satu dari: ' . implode(', ', $validStatuses));
         }
 
         // Validasi workflow status
@@ -322,16 +323,22 @@ class PenggajianService
 
         // Validasi perubahan status yang diizinkan
         $allowedTransitions = [
-            'draft' => ['final', 'draft'], // draft bisa ke final atau tetap draft
-            'final' => ['dibayar', 'draft'], // final bisa ke dibayar atau kembali ke draft (reopen)
-            'dibayar' => ['final'], // dibayar hanya bisa kembali ke final (reopen)
+            'draft' => ['diproses', 'dibatalkan'], 
+            'diproses' => ['disetujui', 'ditolak', 'draft'],
+            'disetujui' => ['dibayar', 'diproses'],
+            'dibayar' => [], // final state, tidak bisa diubah
+            'ditolak' => ['draft', 'diproses'],
+            'dibatalkan' => ['draft'],
         ];
 
         if (!isset($allowedTransitions[$currentStatus]) || 
             !in_array($status, $allowedTransitions[$currentStatus])) {
+            $allowed = empty($allowedTransitions[$currentStatus]) 
+                ? 'tidak ada (status final)' 
+                : implode(', ', $allowedTransitions[$currentStatus]);
             throw new Exception(
                 "Perubahan status dari '{$currentStatus}' ke '{$status}' tidak diizinkan. " .
-                "Transisi yang diizinkan: " . implode(', ', $allowedTransitions[$currentStatus])
+                "Transisi yang diizinkan: {$allowed}"
             );
         }
 

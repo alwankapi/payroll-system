@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="breadcrumbs">
         [
-            ['label' => 'Penggajian', 'url' => '{{ route("penggajians.index") }}'],
+            ['label' => 'Penggajian', 'url' => '{{ route("penggajian.index") }}'],
             ['label' => 'Tambah Penggajian']
         ]
     </x-slot>
@@ -25,7 +25,10 @@
                         <select name="karyawan_id" id="karyawan_id" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('karyawan_id') border-red-500 @enderror">
                             <option value="">Pilih Karyawan</option>
                             @foreach($karyawans as $karyawan)
-                                <option value="{{ $karyawan->id }}" {{ old('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
+                                <option value="{{ $karyawan->id }}" 
+                                    data-gaji-pokok="{{ $karyawan->jabatan->gaji_pokok }}"
+                                    data-tunjangan="{{ $karyawan->jabatan->tunjangan }}"
+                                    {{ old('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
                                     {{ $karyawan->nama_lengkap }} - {{ $karyawan->jabatan->nama_jabatan }}
                                 </option>
                             @endforeach
@@ -112,4 +115,24 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        // Auto-fill gaji pokok dan tunjangan saat memilih karyawan
+        document.getElementById('karyawan_id').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const gajiPokok = selectedOption.getAttribute('data-gaji-pokok');
+            const tunjangan = selectedOption.getAttribute('data-tunjangan');
+            
+            if (gajiPokok && tunjangan) {
+                document.getElementById('gaji_pokok').value = gajiPokok;
+                document.getElementById('tunjangan').value = tunjangan;
+            } else {
+                // Reset jika tidak ada data
+                document.getElementById('gaji_pokok').value = '';
+                document.getElementById('tunjangan').value = '0';
+            }
+        });
+    </script>
+    @endpush
 </x-app-layout>

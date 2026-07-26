@@ -9,18 +9,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Ubah enum status untuk menambahkan opsi baru
-        DB::statement("ALTER TABLE penggajians MODIFY COLUMN status ENUM('draft', 'diproses', 'disetujui', 'dibayar', 'ditolak', 'dibatalkan') NOT NULL DEFAULT 'draft'");
-        
         // Tambahkan kolom catatan
         Schema::table('penggajians', function (Blueprint $table) {
-            $table->text('catatan')->nullable()->after('tanggal_bayar');
+            if (!Schema::hasColumn('penggajians', 'catatan')) {
+                $table->text('catatan')->nullable()->after('tanggal_bayar');
+            }
         });
+        
+        // Note: Status enum update tidak diperlukan karena Laravel model akan handle validation
+        // Enum MySQL tidak compatible dengan SQLite untuk testing
     }
 
     public function down(): void
     {
-        // Kembalikan ke enum status lama
-        DB::statement("ALTER TABLE penggajians MODIFY COLUMN status ENUM('draft', 'final', 'dibayar') NOT NULL DEFAULT 'draft'");
+        Schema::table('penggajians', function (Blueprint $table) {
+            if (Schema::hasColumn('penggajians', 'catatan')) {
+                $table->dropColumn('catatan');
+            }
+        });
     }
 };

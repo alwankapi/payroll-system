@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="breadcrumbs">
         [
-            ['label' => 'Penggajian', 'url' => '{{ route("penggajians.index") }}'],
+            ['label' => 'Penggajian', 'url' => '{{ route("penggajian.index") }}'],
             ['label' => 'Edit Penggajian']
         ]
     </x-slot>
