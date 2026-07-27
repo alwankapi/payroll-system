@@ -60,14 +60,14 @@ class Penggajian extends Model
     protected function isFinal(): Attribute
     {
         return Attribute::make(
-            get: fn () => in_array($this->status, ['disetujui', 'dibayar']),
+            get: fn () => in_array($this->status, ['final', 'dibayar']),
         );
     }
 
     protected function isTerkunci(): Attribute
     {
         return Attribute::make(
-            get: fn () => !in_array($this->status, ['draft', 'ditolak', 'dibatalkan']),
+            get: fn () => $this->status !== 'draft',
         );
     }
 
@@ -76,11 +76,8 @@ class Penggajian extends Model
         return Attribute::make(
             get: fn () => match($this->status) {
                 'draft' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-                'diproses' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-                'disetujui' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-                'dibayar' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
-                'ditolak' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-                'dibatalkan' => 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
+                'final' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                'dibayar' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
                 default => 'bg-gray-100 text-gray-800',
             },
         );
@@ -91,11 +88,8 @@ class Penggajian extends Model
         return Attribute::make(
             get: fn () => match($this->status) {
                 'draft' => 'Draft',
-                'diproses' => 'Diproses',
-                'disetujui' => 'Disetujui',
+                'final' => 'Final',
                 'dibayar' => 'Dibayar',
-                'ditolak' => 'Ditolak',
-                'dibatalkan' => 'Dibatalkan',
                 default => ucfirst($this->status),
             },
         );

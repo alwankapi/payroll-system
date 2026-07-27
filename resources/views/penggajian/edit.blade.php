@@ -83,11 +83,8 @@
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status <span class="text-red-500">*</span></label>
                         <select name="status" id="status" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('status') border-red-500 @enderror">
                             <option value="draft" {{ old('status', $penggajian->status) == 'draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="diproses" {{ old('status', $penggajian->status) == 'diproses' ? 'selected' : '' }}>Diproses</option>
-                            <option value="disetujui" {{ old('status', $penggajian->status) == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="final" {{ old('status', $penggajian->status) == 'final' ? 'selected' : '' }}>Final</option>
                             <option value="dibayar" {{ old('status', $penggajian->status) == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-                            <option value="ditolak" {{ old('status', $penggajian->status) == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                            <option value="dibatalkan" {{ old('status', $penggajian->status) == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                         </select>
                         @error('status')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Status saat ini: <span class="font-semibold">{{ ucfirst($penggajian->status) }}</span></p>

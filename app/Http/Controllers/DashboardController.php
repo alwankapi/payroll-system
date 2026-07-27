@@ -23,13 +23,14 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         
-        // Jika Karyawan, tampilkan dashboard khusus karyawan
+        // Jika Karyawan, redirect ke dashboard karyawan
         if ($user->role === 'karyawan') {
-            return $this->karyawanDashboard();
+            return redirect()->route('karyawan.dashboard');
         }
         
         // Admin Dashboard - Get current month for filtering
-        $currentMonth = Carbon::now()->format('Y-m-01');
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
         
         // Statistics Cards
         $totalKaryawan = Karyawan::count();
@@ -91,9 +92,11 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
         
-        // Top 5 Potongan Terbesar (aktif)
-        $topPotongan = Potongan::where('status_aktif', true)
-            ->orderByDesc(DB::raw('CASE WHEN jenis_potongan = "nominal" THEN nilai ELSE 0 END'))
+        // Top 5 Karyawan dengan Potongan Alpha Terbesar bulan ini
+        $topPotongan = Penggajian::with(['karyawan'])
+            ->whereYear('periode', $currentYear)
+            ->whereMonth('periode', $currentMonth)
+            ->orderByDesc('potongan_alpha')
             ->take(5)
             ->get();
         

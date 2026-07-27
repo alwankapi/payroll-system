@@ -16,7 +16,7 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Penggajian::with(['karyawan.jabatan', 'details.potongan']);
+        $query = Penggajian::with(['karyawan.jabatan']);
 
         // Filter bulan
         if ($request->filled('bulan')) {
@@ -64,7 +64,7 @@ class LaporanController extends Controller
      */
     public function exportPdf(Request $request)
     {
-        $query = Penggajian::with(['karyawan.jabatan', 'details.potongan']);
+        $query = Penggajian::with(['karyawan.jabatan']);
 
         // Apply filters
         if ($request->filled('bulan')) {

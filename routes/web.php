@@ -44,23 +44,47 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 |
 | Route untuk Karyawan (FR-40):
-| - Lihat slip gaji milik sendiri (FR-32, FR-33)
+| - Dashboard karyawan
+| - Profil & update password
+| - Lihat riwayat gaji milik sendiri
 | - Download/preview slip gaji yang sudah final/dibayar
 |
 */
 
-Route::middleware(['auth', 'verified', 'role:karyawan'])->group(function () {
-    // Slip Gaji Routes untuk Karyawan (hanya milik sendiri)
-    Route::prefix('slip-gaji')->name('slip-gaji.')->group(function () {
-        // GET: Preview slip gaji PDF di browser
-        Route::get('{penggajian}/preview', [SlipGajiController::class, 'preview'])
-            ->name('preview');
+Route::middleware(['auth', 'verified', App\Http\Middleware\EnsureUserIsKaryawan::class])
+    ->prefix('karyawan')
+    ->name('karyawan.')
+    ->group(function () {
+        // Dashboard Karyawan
+        Route::get('/dashboard', [App\Http\Controllers\Karyawan\DashboardController::class, 'index'])
+            ->name('dashboard');
         
-        // GET: Download slip gaji PDF
-        Route::get('{penggajian}/download', [SlipGajiController::class, 'download'])
-            ->name('download');
+        // Profil Routes
+        Route::prefix('profil')->name('profil.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Karyawan\ProfilController::class, 'show'])
+                ->name('index');
+            Route::get('/edit', [App\Http\Controllers\Karyawan\ProfilController::class, 'edit'])
+                ->name('edit');
+            Route::put('/', [App\Http\Controllers\Karyawan\ProfilController::class, 'update'])
+                ->name('update');
+        });
+        
+        // Password Routes
+        Route::get('/password', [App\Http\Controllers\Karyawan\ProfilController::class, 'editPassword'])
+            ->name('password.edit');
+        Route::put('/password', [App\Http\Controllers\Karyawan\ProfilController::class, 'updatePassword'])
+            ->name('password.update');
+        
+        // Riwayat Gaji Routes
+        Route::prefix('riwayat-gaji')->name('riwayat-gaji.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Karyawan\RiwayatGajiController::class, 'index'])
+                ->name('index');
+            Route::get('/{penggajian}', [App\Http\Controllers\Karyawan\RiwayatGajiController::class, 'show'])
+                ->name('show');
+            Route::get('/{penggajian}/download', [App\Http\Controllers\Karyawan\RiwayatGajiController::class, 'download'])
+                ->name('download');
+        });
     });
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -88,8 +112,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     // Karyawan Resource Routes
     Route::resource('karyawan', KaryawanController::class);
     
-    // Potongan Resource Routes
-    Route::resource('potongan', PotonganController::class);
+    // Potongan Resource Routes - DISABLED (not needed for USK/LSP demo)
+    // Potongan sudah otomatis dihitung dari alpha di PenggajianService
+    // Route::resource('potongan', PotonganController::class);
     
     /*
     |--------------------------------------------------------------------------

@@ -64,7 +64,7 @@ class UpdatePenggajianRequest extends FormRequest
             ],
             'status' => [
                 'required',
-                'in:draft,diproses,disetujui,dibayar,ditolak,dibatalkan',
+                'in:draft,final,dibayar',
             ],
             'tanggal_bayar' => [
                 'nullable',

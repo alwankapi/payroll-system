@@ -45,6 +45,11 @@ class Karyawan extends Model
         return $this->hasMany(Kehadiran::class);
     }
 
+    public function rekapAbsensis(): HasMany
+    {
+        return $this->hasMany(RekapAbsensi::class);
+    }
+
     protected function isAktif(): Attribute
     {
         return Attribute::make(
