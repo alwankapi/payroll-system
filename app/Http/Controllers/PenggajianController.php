@@ -61,9 +61,9 @@ class PenggajianController extends Controller
      */
     public function create(): View
     {
-        // Ambil karyawan aktif dengan relasi jabatan
+        // Ambil karyawan dengan relasi jabatan
         $karyawans = Karyawan::with('jabatan')
-            ->where('status_karyawan', 'aktif')
+            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
@@ -128,7 +128,7 @@ class PenggajianController extends Controller
         }
 
         $karyawans = Karyawan::with('jabatan')
-            ->where('status_karyawan', 'aktif')
+            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
             ->orderBy('nama_lengkap', 'asc')
             ->get();
 
@@ -207,7 +207,7 @@ class PenggajianController extends Controller
     }
 
     /**
-     * Generate penggajian massal untuk semua karyawan aktif.
+     * Generate penggajian massal untuk semua karyawan.
      */
     public function generateBulk(): View
     {

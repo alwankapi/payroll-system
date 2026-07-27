@@ -172,9 +172,9 @@ class PenggajianService
         $created = 0;
         $skipped = 0;
 
-        // Ambil semua karyawan aktif dengan relasi jabatan
+        // Ambil semua karyawan dengan relasi jabatan
         $karyawans = Karyawan::with('jabatan')
-            ->where('status_karyawan', 'aktif')
+            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
             ->get();
 
         foreach ($karyawans as $karyawan) {

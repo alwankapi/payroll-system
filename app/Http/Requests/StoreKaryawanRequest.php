@@ -75,7 +75,7 @@ class StoreKaryawanRequest extends FormRequest
             ],
             'status_karyawan' => [
                 'required',
-                'in:aktif,nonaktif',
+                'in:tetap,kontrak,magang',
             ],
         ];
     }
@@ -126,7 +126,7 @@ class StoreKaryawanRequest extends FormRequest
             'tanggal_masuk.before_or_equal' => ':attribute tidak boleh lebih dari hari ini.',
             'no_rekening.max' => ':attribute maksimal :max karakter.',
             'status_karyawan.required' => ':attribute wajib dipilih.',
-            'status_karyawan.in' => ':attribute harus aktif atau nonaktif.',
+            'status_karyawan.in' => ':attribute harus Tetap, Kontrak, atau Magang.',
         ];
     }
 }

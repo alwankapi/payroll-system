@@ -77,9 +77,8 @@
                     <div>
                         <label for="status_karyawan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status <span class="text-red-500">*</span></label>
                         <select name="status_karyawan" id="status_karyawan" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
-                            <option value="tetap" {{ old('status_karyawan', $karyawan->status_karyawan) === 'tetap' ? 'selected' : '' }}>Tetap</option>
-                            <option value="kontrak" {{ old('status_karyawan', $karyawan->status_karyawan) === 'kontrak' ? 'selected' : '' }}>Kontrak</option>
-                            <option value="magang" {{ old('status_karyawan', $karyawan->status_karyawan) === 'magang' ? 'selected' : '' }}>Magang</option>
+                            <option value="aktif" {{ old('status_karyawan', $karyawan->status_karyawan) === 'aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="nonaktif" {{ old('status_karyawan', $karyawan->status_karyawan) === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                         </select>
                     </div>
                 </div>

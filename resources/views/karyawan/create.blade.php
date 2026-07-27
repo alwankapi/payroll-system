@@ -132,8 +132,9 @@
                         </label>
                         <select name="status_karyawan" id="status_karyawan" required
                             class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm @error('status_karyawan') border-red-500 @enderror">
-                            <option value="aktif" {{ old('status_karyawan', 'aktif') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="nonaktif" {{ old('status_karyawan') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                            <option value="tetap" {{ old('status_karyawan', 'tetap') === 'tetap' ? 'selected' : '' }}>Tetap</option>
+                            <option value="kontrak" {{ old('status_karyawan') === 'kontrak' ? 'selected' : '' }}>Kontrak</option>
+                            <option value="magang" {{ old('status_karyawan') === 'magang' ? 'selected' : '' }}>Magang</option>
                         </select>
                         @error('status_karyawan')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

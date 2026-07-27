@@ -19,7 +19,7 @@
                         
                         <div class="mb-4">
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                Fitur ini akan membuat data penggajian (draft) untuk semua karyawan pada periode yang dipilih.
+                                Fitur ini akan membuat data penggajian (draft) untuk semua karyawan aktif pada periode yang dipilih.
                                 Karyawan yang sudah memiliki data penggajian pada periode tersebut akan dilewati.
                             </p>
                         </div>

@@ -36,7 +36,7 @@ class PenggajianServiceTest extends TestCase
         
         $this->karyawan = Karyawan::factory()->create([
             'jabatan_id' => $this->jabatan->id,
-            'status_karyawan' => 'tetap',
+            'status_karyawan' => 'aktif',
         ]);
         
         $this->potongan = Potongan::factory()->create([

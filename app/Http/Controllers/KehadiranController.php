@@ -37,7 +37,7 @@ class KehadiranController extends Controller
                            ->withQueryString();
 
         $karyawans = Karyawan::with('jabatan')
-                            ->where('status_karyawan', 'aktif')
+                            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
                             ->orderBy('nama_lengkap')
                             ->get();
 
@@ -50,7 +50,7 @@ class KehadiranController extends Controller
     public function create()
     {
         $karyawans = Karyawan::with('jabatan')
-                            ->where('status_karyawan', 'aktif')
+                            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
                             ->orderBy('nama_lengkap')
                             ->get();
 
@@ -92,7 +92,7 @@ class KehadiranController extends Controller
     public function edit(Kehadiran $kehadiran)
     {
         $karyawans = Karyawan::with('jabatan')
-                            ->where('status_karyawan', 'aktif')
+                            ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
                             ->orderBy('nama_lengkap')
                             ->get();
 
@@ -147,7 +147,7 @@ class KehadiranController extends Controller
         $karyawans = Karyawan::with(['jabatan', 'kehadirans' => function ($query) use ($tahun, $bulan) {
             $query->byMonth($tahun, $bulan)->orderBy('tanggal');
         }])
-        ->where('status_karyawan', 'aktif')
+        ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
         ->orderBy('nama_lengkap')
         ->get();
 

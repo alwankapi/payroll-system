@@ -177,7 +177,7 @@ class KaryawanController extends Controller
             if ($hasPenggajian) {
                 return redirect()
                     ->back()
-                    ->with('error', 'Karyawan tidak dapat dihapus karena memiliki riwayat penggajian. Ubah status menjadi nonaktif sebagai gantinya.');
+                    ->with('error', 'Karyawan tidak dapat dihapus karena memiliki riwayat penggajian. Ubah status sebagai gantinya.');
             }
 
             DB::beginTransaction();

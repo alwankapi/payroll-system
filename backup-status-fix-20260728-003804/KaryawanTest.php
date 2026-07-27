@@ -50,7 +50,7 @@ class KaryawanTest extends TestCase
             'alamat' => 'Jakarta',
             'tanggal_masuk' => '2026-01-01',
             'jabatan_id' => $this->jabatan->id,
-            'status_karyawan' => 'tetap',
+            'status_karyawan' => 'aktif',
         ];
 
         $response = $this->actingAs($this->user)->post(route('karyawan.store'), $data);
@@ -123,7 +123,7 @@ class KaryawanTest extends TestCase
             'nik' => $karyawan->nik,
             'nama_karyawan' => 'New Name',
             'jabatan_id' => $this->jabatan->id,
-            'status_karyawan' => 'tetap',
+            'status_karyawan' => 'aktif',
         ];
 
         $response = $this->actingAs($this->user)->put(route('karyawan.update', $karyawan), $updateData);
@@ -160,8 +160,8 @@ class KaryawanTest extends TestCase
     /** @test */
     public function karyawan_index_can_filter_by_status()
     {
-        Karyawan::factory()->create(['status_karyawan' => 'tetap', 'jabatan_id' => $this->jabatan->id]);
-        Karyawan::factory()->create(['status_karyawan' => 'magang', 'jabatan_id' => $this->jabatan->id]);
+        Karyawan::factory()->create(['status_karyawan' => 'aktif', 'jabatan_id' => $this->jabatan->id]);
+        Karyawan::factory()->create(['status_karyawan' => 'nonaktif', 'jabatan_id' => $this->jabatan->id]);
 
         $response = $this->actingAs($this->user)->get(route('karyawan.index', ['status' => 'aktif']));
         

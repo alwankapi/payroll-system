@@ -114,15 +114,15 @@ class JabatanController extends Controller
     public function destroy(Jabatan $jabatan): RedirectResponse
     {
         try {
-            // BR-09: Validasi jabatan yang masih dipakai karyawan aktif tidak dapat dihapus
-            $karyawanAktifCount = $jabatan->karyawans()
-                ->where('status_karyawan', 'aktif')
+            // BR-09: Validasi jabatan yang masih dipakai karyawan tidak dapat dihapus
+            $karyawanCount = $jabatan->karyawans()
+                ->whereIn('status_karyawan', ['tetap', 'kontrak', 'magang'])
                 ->count();
 
-            if ($karyawanAktifCount > 0) {
+            if ($karyawanCount > 0) {
                 return redirect()
                     ->back()
-                    ->with('error', 'Jabatan tidak dapat dihapus karena masih digunakan oleh ' . $karyawanAktifCount . ' karyawan aktif.');
+                    ->with('error', 'Jabatan tidak dapat dihapus karena masih digunakan oleh ' . $karyawanCount . ' karyawan.');
             }
 
             DB::beginTransaction();

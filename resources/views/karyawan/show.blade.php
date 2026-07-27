@@ -52,11 +52,9 @@
 
                     <div>
                         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Status</h3>
-                        @if($karyawan->status_karyawan === 'aktif')
-                            <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Aktif</span>
-                        @else
-                            <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Nonaktif</span>
-                        @endif
+                        <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full {{ $karyawan->statusBadgeClass() }}">
+                            {{ $karyawan->statusLabel() }}
+                        </span>
                     </div>
 
                     <div>
