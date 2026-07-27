@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        @if($penggajian->potongans->count() > 0)
+        @if($penggajian->details->count() > 0)
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Detail Potongan</h3>
@@ -106,22 +106,18 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @foreach($penggajian->potongans as $potongan)
+                            @foreach($penggajian->details as $detail)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $potongan->nama_potongan }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $detail->nama_potongan }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($potongan->jenis_potongan === 'nominal')
+                                    @if($detail->potongan && $detail->potongan->jenis_potongan === 'nominal')
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Nominal</span>
                                     @else
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">Persentase</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-red-600 dark:text-red-400">
-                                    @if($potongan->jenis_potongan === 'nominal')
-                                        Rp {{ number_format($potongan->nilai, 0, ',', '.') }}
-                                    @else
-                                        {{ number_format($potongan->nilai, 2) }}% (Rp {{ number_format($penggajian->gaji_pokok * $potongan->nilai / 100, 0, ',', '.') }})
-                                    @endif
+                                    Rp {{ number_format($detail->nilai_potongan, 0, ',', '.') }}
                                 </td>
                             </tr>
                             @endforeach

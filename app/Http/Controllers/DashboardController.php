@@ -92,11 +92,11 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
         
-        // Top 5 Karyawan dengan Potongan Alpha Terbesar bulan ini
+        // Top 5 Karyawan dengan Potongan Terbesar bulan ini
         $topPotongan = Penggajian::with(['karyawan'])
             ->whereYear('periode', $currentYear)
             ->whereMonth('periode', $currentMonth)
-            ->orderByDesc('potongan_alpha')
+            ->orderByDesc('total_potongan')
             ->take(5)
             ->get();
         

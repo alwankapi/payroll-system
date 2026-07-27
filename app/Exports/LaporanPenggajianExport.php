@@ -24,7 +24,7 @@ class LaporanPenggajianExport implements FromCollection, WithHeadings, WithMappi
      */
     public function collection()
     {
-        $query = Penggajian::with(['karyawan.jabatan', 'potongans']);
+        $query = Penggajian::with(['karyawan.jabatan', 'details']);
 
         if (!empty($this->filters['bulan'])) {
             $query->whereMonth('periode', $this->filters['bulan']);

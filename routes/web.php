@@ -112,9 +112,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     // Karyawan Resource Routes
     Route::resource('karyawan', KaryawanController::class);
     
-    // Potongan Resource Routes - DISABLED (not needed for USK/LSP demo)
-    // Potongan sudah otomatis dihitung dari alpha di PenggajianService
-    // Route::resource('potongan', PotonganController::class);
+    // Potongan Resource Routes
+    Route::resource('potongan', PotonganController::class);
     
     /*
     |--------------------------------------------------------------------------
