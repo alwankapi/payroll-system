@@ -16,7 +16,7 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Penggajian::with(['karyawan.jabatan']);
+        $query = Penggajian::with(['karyawan.jabatan', 'details.potongan']);
 
         // Filter bulan
         if ($request->filled('bulan')) {
