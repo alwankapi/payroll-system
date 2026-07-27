@@ -34,14 +34,14 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
-                        <input type="email" name="email" id="email" value="{{ old('email', $karyawan->email) }}" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('email') border-red-500 @enderror">
-                        @error('email')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
+                        <label for="no_telepon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">No. Telepon</label>
+                        <input type="text" name="no_telepon" id="no_telepon" value="{{ old('no_telepon', $karyawan->no_telepon) }}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
                     </div>
 
                     <div>
-                        <label for="no_telepon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">No. Telepon</label>
-                        <input type="text" name="no_telepon" id="no_telepon" value="{{ old('no_telepon', $karyawan->no_telepon) }}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                        <label for="no_rekening" class="block text-sm font-medium text-gray-700 dark:text-gray-300">No. Rekening</label>
+                        <input type="text" name="no_rekening" id="no_rekening" value="{{ old('no_rekening', $karyawan->no_rekening) }}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="Contoh: 1234567890">
+                        @error('no_rekening')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                     </div>
 
                     <div>
@@ -69,8 +69,9 @@
                     </div>
 
                     <div>
-                        <label for="tanggal_bergabung" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tanggal Bergabung <span class="text-red-500">*</span></label>
-                        <input type="date" name="tanggal_bergabung" id="tanggal_bergabung" value="{{ old('tanggal_bergabung', $karyawan->tanggal_bergabung) }}" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                        <label for="tanggal_masuk" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tanggal Masuk <span class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_masuk" id="tanggal_masuk" value="{{ old('tanggal_masuk', $karyawan->tanggal_masuk?->format('Y-m-d')) }}" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('tanggal_masuk') border-red-500 @enderror">
+                        @error('tanggal_masuk')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                     </div>
 
                     <div>

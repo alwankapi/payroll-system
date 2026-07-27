@@ -32,7 +32,7 @@ class StorePenggajianRequest extends FormRequest
             'periode' => [
                 'required',
                 'date',
-                'date_format:Y-m-d',
+                'date_format:Y-m',
                 // BR-05: Validasi unique kombinasi karyawan_id + periode
                 Rule::unique('penggajians')->where(function ($query) {
                     return $query->where('karyawan_id', $this->karyawan_id);
@@ -122,6 +122,19 @@ class StorePenggajianRequest extends FormRequest
             'status.in' => ':attribute harus draft, final, atau dibayar.',
             'tanggal_bayar.date' => ':attribute harus berupa tanggal yang valid.',
         ];
+    }
+
+    /**
+     * Prepare data for validation - convert Y-m to Y-m-01
+     */
+    protected function prepareForValidation(): void
+    {
+        // Convert periode from Y-m format to Y-m-01 for database storage
+        if ($this->periode && preg_match('/^\d{4}-\d{2}$/', $this->periode)) {
+            $this->merge([
+                'periode' => $this->periode . '-01',
+            ]);
+        }
     }
 
     /**

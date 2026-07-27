@@ -64,7 +64,8 @@ class LaporanController extends Controller
      */
     public function exportPdf(Request $request)
     {
-        $query = Penggajian::with(['karyawan.jabatan']);
+        // Eager load all necessary relationships to prevent N+1 queries
+        $query = Penggajian::with(['karyawan.jabatan', 'details.potongan']);
 
         // Apply filters
         if ($request->filled('bulan')) {
@@ -82,7 +83,9 @@ class LaporanController extends Controller
             $query->where('status', $request->status);
         }
 
-        $penggajians = $query->orderBy('periode', 'desc')->get();
+        $penggajians = $query->orderBy('periode', 'desc')
+                            ->orderBy('created_at', 'desc')
+                            ->get();
 
         $summary = [
             'total_gaji_pokok' => $penggajians->sum('gaji_pokok'),
@@ -100,11 +103,20 @@ class LaporanController extends Controller
             'status' => $request->status ? ucfirst($request->status) : 'Semua',
         ];
 
+        // Generate PDF dengan paper size A4 Portrait
         $pdf = Pdf::loadView('pdf.laporan-penggajian', compact('penggajians', 'summary', 'filters'))
-            ->setPaper('a4', 'landscape')
-            ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+            ->setPaper('a4', 'portrait')
+            ->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+                'debugKeepTemp' => false,
+                'debugCss' => false,
+                'enable_font_subsetting' => true,
+                'dpi' => 150,
+            ]);
 
-        $filename = 'laporan-penggajian-' . date('Y-m-d-His') . '.pdf';
+        $filename = 'laporan-penggajian-' . date('Ymd-His') . '.pdf';
+        
         return $pdf->download($filename);
     }
 

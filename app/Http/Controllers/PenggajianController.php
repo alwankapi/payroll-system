@@ -89,7 +89,7 @@ class PenggajianController extends Controller
 
             return redirect()
                 ->route('penggajian.index')
-                ->with('success', 'Data penggajian berhasil dibuat.');
+                ->with('success', 'Data penggajian berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
 

@@ -54,18 +54,18 @@
                 </div>
 
                 <div>
-                    <label for="tunjangan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Tunjangan <span class="text-red-500">*</span>
+                    <label for="tunjangan_jabatan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Tunjangan Jabatan <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span>
                         </div>
-                        <input type="number" name="tunjangan" id="tunjangan" value="{{ old('tunjangan', $jabatan->tunjangan) }}" required min="0" step="1000"
-                            class="block w-full pl-12 pr-12 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 @error('tunjangan') border-red-500 @enderror"
+                        <input type="number" name="tunjangan_jabatan" id="tunjangan_jabatan" value="{{ old('tunjangan_jabatan', $jabatan->tunjangan_jabatan) }}" required min="0" step="1000"
+                            class="block w-full pl-12 pr-12 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 @error('tunjangan_jabatan') border-red-500 @enderror"
                             placeholder="1000000">
                     </div>
-                    @error('tunjangan')
+                    @error('tunjangan_jabatan')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Minimal Rp 0, maksimal Rp 999.999.999. Kosongkan jika tidak ada tunjangan</p>
@@ -130,16 +130,16 @@
 
         function updateRingkasan() {
             const gajiPokok = parseInt(document.getElementById('gaji_pokok').value) || 0;
-            const tunjangan = parseInt(document.getElementById('tunjangan').value) || 0;
-            const totalGaji = gajiPokok + tunjangan;
+            const tunjanganJabatan = parseInt(document.getElementById('tunjangan_jabatan').value) || 0;
+            const totalGaji = gajiPokok + tunjanganJabatan;
 
             document.getElementById('display_gaji_pokok').textContent = formatRupiah(gajiPokok);
-            document.getElementById('display_tunjangan').textContent = formatRupiah(tunjangan);
+            document.getElementById('display_tunjangan').textContent = formatRupiah(tunjanganJabatan);
             document.getElementById('display_total_gaji').textContent = formatRupiah(totalGaji);
         }
 
         document.getElementById('gaji_pokok').addEventListener('input', updateRingkasan);
-        document.getElementById('tunjangan').addEventListener('input', updateRingkasan);
+        document.getElementById('tunjangan_jabatan').addEventListener('input', updateRingkasan);
 
         // Initialize on page load
         updateRingkasan();

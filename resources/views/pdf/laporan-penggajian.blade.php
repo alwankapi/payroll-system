@@ -4,54 +4,223 @@
     <meta charset="utf-8">
     <title>Laporan Penggajian</title>
     <style>
-        body { font-family: Arial, sans-serif; font-size: 11px; margin: 20px; }
-        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .header h2 { margin: 5px 0; font-size: 18px; }
-        .header p { margin: 3px 0; font-size: 10px; color: #666; }
-        .info { margin-bottom: 15px; }
-        .info table { width: 100%; }
-        .info td { padding: 3px 0; }
-        .summary { margin: 20px 0; }
-        .summary table { width: 100%; border-collapse: collapse; }
-        .summary th { background: #4F46E5; color: white; padding: 8px; text-align: left; font-size: 10px; }
-        .summary td { padding: 8px; border-bottom: 1px solid #ddd; }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .data-table th { background: #1F2937; color: white; padding: 8px; text-align: left; font-size: 9px; }
-        .data-table td { padding: 6px 8px; border-bottom: 1px solid #ddd; font-size: 9px; }
-        .data-table tr:nth-child(even) { background: #f9f9f9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'DejaVu Sans', Arial, sans-serif; 
+            font-size: 9px; 
+            margin: 15px; 
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 15px; 
+            border-bottom: 2px solid #333; 
+            padding-bottom: 10px; 
+        }
+        
+        .header h2 { 
+            margin: 3px 0; 
+            font-size: 16px; 
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .header p { 
+            margin: 2px 0; 
+            font-size: 8px; 
+            color: #666; 
+        }
+        
+        .header h3 { 
+            margin-top: 8px; 
+            font-size: 14px; 
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .info { 
+            margin-bottom: 12px; 
+            font-size: 8px;
+        }
+        
+        .info table { 
+            width: 100%; 
+            border-collapse: collapse;
+        }
+        
+        .info td { 
+            padding: 2px 0; 
+            vertical-align: top;
+        }
+        
+        .info strong { 
+            font-weight: bold; 
+        }
+        
+        .summary { 
+            margin: 15px 0; 
+            page-break-inside: avoid;
+        }
+        
+        .summary h4 {
+            margin-bottom: 5px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .summary-grid {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        .summary-item {
+            display: table-cell;
+            width: 33.33%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            vertical-align: top;
+        }
+        
+        .summary-label {
+            font-size: 7px;
+            color: #666;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+        
+        .summary-value {
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .detail-section h4 {
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 8px;
+            font-size: 7px;
+        }
+        
+        .data-table thead {
+            background: #2d3748;
+            color: white;
+        }
+        
+        .data-table th { 
+            padding: 5px 4px; 
+            text-align: left; 
+            font-weight: bold;
+            border: 1px solid #1a202c;
+        }
+        
+        .data-table td { 
+            padding: 4px; 
+            border: 1px solid #e2e8f0; 
+            vertical-align: top;
+        }
+        
+        .data-table tbody tr:nth-child(even) { 
+            background: #f7fafc; 
+        }
+        
         .text-right { text-align: right; }
         .text-center { text-align: center; }
-        .badge { padding: 3px 8px; border-radius: 3px; font-size: 8px; font-weight: bold; display: inline-block; }
-        .badge-draft { background: #E5E7EB; color: #1F2937; }
-        .badge-diproses { background: #DBEAFE; color: #1E40AF; }
-        .badge-disetujui { background: #D1FAE5; color: #065F46; }
-        .badge-dibayar { background: #A7F3D0; color: #065F46; }
-        .badge-ditolak { background: #FEE2E2; color: #991B1B; }
-        .badge-dibatalkan { background: #FED7AA; color: #9A3412; }
-        .detail-potongan { margin-top: 3px; padding: 3px 5px; background: #f9f9f9; font-size: 8px; border-left: 2px solid #4F46E5; }
-        .footer { margin-top: 30px; text-align: center; font-size: 9px; color: #666; border-top: 1px solid #ddd; padding-top: 10px; }
+        
+        .potongan-list {
+            font-size: 6px;
+            line-height: 1.3;
+        }
+        
+        .potongan-item {
+            margin-bottom: 2px;
+            padding: 2px;
+            background: #f7fafc;
+            border-left: 2px solid #4299e1;
+        }
+        
+        .potongan-name {
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .potongan-value {
+            color: #e53e3e;
+        }
+        
+        .total-potongan {
+            margin-top: 3px;
+            padding-top: 2px;
+            border-top: 1px solid #cbd5e0;
+            font-weight: bold;
+            font-size: 7px;
+        }
+        
+        .no-data {
+            color: #a0aec0;
+            font-style: italic;
+            font-size: 7px;
+        }
+        
+        .footer { 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: 7px; 
+            color: #666; 
+            border-top: 1px solid #e2e8f0; 
+            padding-top: 8px;
+            page-break-inside: avoid;
+        }
+        
+        .footer p {
+            margin: 2px 0;
+        }
+        
+        /* Print optimization */
+        @media print {
+            body { margin: 10px; }
+            .page-break { page-break-after: always; }
+        }
+        
+        /* Prevent widows and orphans */
+        p, li, .data-table tr {
+            page-break-inside: avoid;
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
-        <h2>{{ config('app.company_name', 'PT. SISTEM PENGGAJIAN') }}</h2>
-        <p>{{ config('app.company_address', 'Jl. Contoh No. 123, Jakarta') }}</p>
-        <p>Telp: {{ config('app.company_phone', '021-1234567') }} | Email: {{ config('app.company_email', 'info@perusahaan.com') }}</p>
-        <h3 style="margin-top: 15px;">LAPORAN PENGGAJIAN</h3>
+        <h2>PT. Sistem Penggajian Indonesia</h2>
+        <p>Jl. Merdeka No. 123, Jakarta Pusat 10110</p>
+        <p>Telp: (021) 1234-5678 | Email: info@sistempenggajian.com | www.sistempenggajian.com</p>
+        <h3>Laporan Penggajian</h3>
     </div>
 
+    <!-- Info Filter -->
     <div class="info">
         <table>
             <tr>
-                <td width="15%"><strong>Periode Bulan</strong></td>
+                <td width="18%"><strong>Periode Bulan</strong></td>
                 <td width="2%">:</td>
-                <td width="33%">{{ $filters['bulan'] }}</td>
-                <td width="15%"><strong>Tahun</strong></td>
+                <td width="30%">{{ $filters['bulan'] }}</td>
+                <td width="18%"><strong>Tahun</strong></td>
                 <td width="2%">:</td>
-                <td width="33%">{{ $filters['tahun'] }}</td>
+                <td width="30%">{{ $filters['tahun'] }}</td>
             </tr>
             <tr>
-                <td><strong>Jabatan</strong></td>
+                <td><strong>Filter Jabatan</strong></td>
                 <td>:</td>
                 <td>{{ $filters['jabatan'] }}</td>
                 <td><strong>Status</strong></td>
@@ -61,94 +230,109 @@
             <tr>
                 <td><strong>Tanggal Cetak</strong></td>
                 <td>:</td>
-                <td colspan="4">{{ date('d F Y, H:i') }} WIB</td>
+                <td colspan="4">{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY HH:mm') }} WIB</td>
             </tr>
         </table>
     </div>
 
+    <!-- Summary -->
     <div class="summary">
-        <h4 style="margin-bottom: 10px;">Ringkasan</h4>
-        <table>
-            <tr>
-                <th>Total Gaji Pokok</th>
-                <th>Total Tunjangan</th>
-                <th>Total Potongan</th>
-                <th>Total Gaji Bersih</th>
-                <th>Jumlah Karyawan</th>
-                <th>Total Transaksi</th>
-            </tr>
-            <tr>
-                <td>Rp {{ number_format($summary['total_gaji_pokok'], 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($summary['total_tunjangan'], 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($summary['total_potongan'], 0, ',', '.') }}</td>
-                <td><strong>Rp {{ number_format($summary['total_gaji_bersih'], 0, ',', '.') }}</strong></td>
-                <td class="text-center">{{ $summary['jumlah_karyawan'] }} Orang</td>
-                <td class="text-center">{{ $summary['jumlah_transaksi'] }} Data</td>
-            </tr>
-        </table>
+        <h4>Ringkasan Laporan</h4>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-label">Total Gaji Pokok</div>
+                <div class="summary-value">Rp {{ number_format($summary['total_gaji_pokok'], 0, ',', '.') }}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Total Tunjangan</div>
+                <div class="summary-value">Rp {{ number_format($summary['total_tunjangan'], 0, ',', '.') }}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Total Potongan</div>
+                <div class="summary-value">Rp {{ number_format($summary['total_potongan'], 0, ',', '.') }}</div>
+            </div>
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-label">Total Gaji Bersih</div>
+                <div class="summary-value" style="color: #2d3748; font-size: 12px;">Rp {{ number_format($summary['total_gaji_bersih'], 0, ',', '.') }}</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Jumlah Karyawan</div>
+                <div class="summary-value">{{ $summary['jumlah_karyawan'] }} Orang</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Total Transaksi</div>
+                <div class="summary-value">{{ $summary['jumlah_transaksi'] }} Data</div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <h4 style="margin-bottom: 10px;">Detail Penggajian</h4>
+    <!-- Detail Table -->
+    <div class="detail-section">
+        <h4>Detail Penggajian Karyawan</h4>
         <table class="data-table">
             <thead>
                 <tr>
-                    <th width="3%">No</th>
-                    <th width="10%">NIK</th>
-                    <th width="15%">Nama Karyawan</th>
-                    <th width="12%">Jabatan</th>
-                    <th width="8%">Periode</th>
-                    <th width="10%" class="text-right">Gaji Pokok</th>
-                    <th width="9%" class="text-right">Tunjangan</th>
-                    <th width="9%" class="text-right">Gaji Kotor</th>
-                    <th width="15%">Rincian Potongan</th>
-                    <th width="9%" class="text-right">Gaji Bersih</th>
+                    <th style="width: 3%;">No</th>
+                    <th style="width: 9%;">NIK</th>
+                    <th style="width: 18%;">Nama Karyawan</th>
+                    <th style="width: 12%;">Jabatan</th>
+                    <th style="width: 7%;">Periode</th>
+                    <th style="width: 11%;" class="text-right">Gaji Pokok</th>
+                    <th style="width: 10%;" class="text-right">Tunjangan</th>
+                    <th style="width: 18%;">Potongan</th>
+                    <th style="width: 12%;" class="text-right">Gaji Bersih</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($penggajians as $index => $penggajian)
+                @forelse($penggajians as $index => $penggajian)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td>{{ $penggajian->karyawan->nik }}</td>
                     <td>{{ $penggajian->karyawan->nama_lengkap }}</td>
                     <td>{{ $penggajian->karyawan->jabatan->nama_jabatan }}</td>
-                    <td>{{ \Carbon\Carbon::parse($penggajian->periode)->format('M Y') }}</td>
+                    <td class="text-center">{{ \Carbon\Carbon::parse($penggajian->periode)->format('M Y') }}</td>
                     <td class="text-right">{{ number_format($penggajian->gaji_pokok, 0, ',', '.') }}</td>
                     <td class="text-right">{{ number_format($penggajian->tunjangan, 0, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($penggajian->gaji_pokok + $penggajian->tunjangan, 0, ',', '.') }}</td>
-                    <td style="font-size: 8px;">
+                    <td>
                         @if($penggajian->details && $penggajian->details->count() > 0)
-                            @foreach($penggajian->details as $detail)
-                                <div class="detail-potongan">
-                                    <strong>{{ $detail->nama_potongan }}</strong><br>
-                                    @if($detail->potongan)
-                                        <em>{{ ucfirst($detail->potongan->jenis_potongan) }}</em><br>
-                                    @endif
-                                    Rp {{ number_format($detail->nilai_potongan, 0, ',', '.') }}
+                            <div class="potongan-list">
+                                @foreach($penggajian->details as $detail)
+                                    <div class="potongan-item">
+                                        <span class="potongan-name">{{ $detail->nama_potongan }}</span>
+                                        @if($detail->potongan)
+                                            <span style="color: #718096;">({{ ucfirst($detail->potongan->jenis_potongan) }})</span>
+                                        @endif
+                                        <span class="potongan-value"> - Rp {{ number_format($detail->nilai_potongan, 0, ',', '.') }}</span>
+                                    </div>
+                                @endforeach
+                                <div class="total-potongan">
+                                    Total: Rp {{ number_format($penggajian->total_potongan, 0, ',', '.') }}
                                 </div>
-                            @endforeach
-                            <div style="margin-top: 3px; padding-top: 3px; border-top: 1px solid #ddd;">
-                                <strong>Total: Rp {{ number_format($penggajian->total_potongan, 0, ',', '.') }}</strong>
                             </div>
                         @else
-                            <em style="color: #999;">Tidak ada potongan</em>
+                            <span class="no-data">Tidak ada potongan</span>
                         @endif
                     </td>
-                    <td class="text-right"><strong>{{ number_format($penggajian->gaji_bersih, 0, ',', '.') }}</strong></td>
+                    <td class="text-right" style="font-weight: bold;">{{ number_format($penggajian->gaji_bersih, 0, ',', '.') }}</td>
                 </tr>
-                @endforeach
-                @if($penggajians->count() == 0)
+                @empty
                 <tr>
-                    <td colspan="10" class="text-center" style="padding: 20px;">Tidak ada data</td>
+                    <td colspan="9" class="text-center" style="padding: 20px; color: #a0aec0;">
+                        Tidak ada data penggajian sesuai dengan filter yang dipilih
+                    </td>
                 </tr>
-                @endif
+                @endforelse
             </tbody>
         </table>
     </div>
 
+    <!-- Footer -->
     <div class="footer">
-        <p>Dokumen ini dicetak secara otomatis oleh Sistem Penggajian</p>
-        <p>© {{ date('Y') }} {{ config('app.company_name', 'PT. SISTEM PENGGAJIAN') }}. All rights reserved.</p>
+        <p><strong>PT. Sistem Penggajian Indonesia</strong></p>
+        <p>Dokumen ini digenerate secara otomatis oleh Sistem Penggajian</p>
+        <p>© {{ date('Y') }} PT. Sistem Penggajian Indonesia. All rights reserved.</p>
     </div>
 </body>
 </html>

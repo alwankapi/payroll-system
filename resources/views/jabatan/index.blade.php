@@ -91,7 +91,7 @@
                                 <div class="text-sm text-gray-900 dark:text-gray-300">Rp {{ number_format($jabatan->gaji_pokok, 0, ',', '.') }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 dark:text-gray-300">Rp {{ number_format($jabatan->tunjangan, 0, ',', '.') }}</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-300">Rp {{ number_format($jabatan->tunjangan_jabatan, 0, ',', '.') }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-semibold text-gray-900 dark:text-white">Rp {{ number_format($jabatan->total_gaji, 0, ',', '.') }}</div>

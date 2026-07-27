@@ -30,4 +30,12 @@ class Jabatan extends Model
             get: fn () => $this->gaji_pokok + $this->tunjangan_jabatan,
         );
     }
+
+    // Alias accessor for better compatibility
+    protected function totalGaji(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            get: fn () => $this->gaji_pokok + $this->tunjangan_jabatan,
+        );
+    }
 }

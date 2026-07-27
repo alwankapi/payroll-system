@@ -94,7 +94,7 @@
                                 <div class="text-sm text-gray-900 dark:text-gray-300">{{ $karyawan->jabatan->nama_jabatan }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $karyawan->email }}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $karyawan->user->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($karyawan->status_karyawan === 'aktif')

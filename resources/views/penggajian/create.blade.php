@@ -25,12 +25,12 @@
                         <select name="karyawan_id" id="karyawan_id" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm @error('karyawan_id') border-red-500 @enderror">
                             <option value="">Pilih Karyawan</option>
                             @foreach($karyawans as $karyawan)
-                                <option value="{{ $karyawan->id }}" 
-                                    data-gaji-pokok="{{ $karyawan->jabatan->gaji_pokok }}"
-                                    data-tunjangan="{{ $karyawan->jabatan->tunjangan }}"
-                                    {{ old('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
-                                    {{ $karyawan->nama_lengkap }} - {{ $karyawan->jabatan->nama_jabatan }}
-                                </option>
+                        <option value="{{ $karyawan->id }}" 
+                            data-gaji-pokok="{{ $karyawan->jabatan->gaji_pokok }}"
+                            data-tunjangan="{{ $karyawan->jabatan->tunjangan_jabatan }}"
+                            {{ old('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
+                            {{ $karyawan->nama_lengkap }} - {{ $karyawan->jabatan->nama_jabatan }}
+                        </option>
                             @endforeach
                         </select>
                         @error('karyawan_id')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
@@ -57,12 +57,15 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Potongan</label>
-                    <div class="space-y-2 border border-gray-300 dark:border-gray-700 rounded-md p-4">
+                    <div class="space-y-2 border border-gray-300 dark:border-gray-700 rounded-md p-4" id="potongan-list">
                         @foreach($potongans as $potongan)
                             <label class="flex items-center">
                                 <input type="checkbox" name="potongan_ids[]" value="{{ $potongan->id }}" 
+                                    data-jenis="{{ $potongan->jenis_potongan }}"
+                                    data-nilai="{{ $potongan->nilai }}"
+                                    data-nama="{{ $potongan->nama_potongan }}"
                                     {{ is_array(old('potongan_ids')) && in_array($potongan->id, old('potongan_ids')) ? 'checked' : '' }}
-                                    class="rounded border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-indigo-600 focus:ring-indigo-500">
+                                    class="potongan-checkbox rounded border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-indigo-600 focus:ring-indigo-500">
                                 <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
                                     {{ $potongan->nama_potongan }} 
                                     @if($potongan->jenis_potongan === 'nominal')
@@ -75,6 +78,36 @@
                         @endforeach
                     </div>
                     @error('potongan_ids')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
+                </div>
+
+                <!-- Hidden fields untuk total_potongan dan gaji_bersih -->
+                <input type="hidden" name="total_potongan" id="total_potongan" value="{{ old('total_potongan', 0) }}">
+                <input type="hidden" name="gaji_bersih" id="gaji_bersih" value="{{ old('gaji_bersih', 0) }}">
+
+                <!-- Preview Perhitungan -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 space-y-2">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Preview Perhitungan Gaji</h3>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600 dark:text-gray-400">Gaji Pokok:</span>
+                        <span class="font-medium text-gray-900 dark:text-white" id="preview-gaji-pokok">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600 dark:text-gray-400">Tunjangan:</span>
+                        <span class="font-medium text-gray-900 dark:text-white" id="preview-tunjangan">Rp 0</span>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600 dark:text-gray-400">Total Potongan:</span>
+                        <span class="font-medium text-red-600 dark:text-red-400" id="preview-total-potongan">Rp 0</span>
+                    </div>
+                    <div id="preview-potongan-details" class="pl-4 space-y-1 text-xs text-gray-500 dark:text-gray-400">
+                        <!-- Detail potongan akan muncul di sini -->
+                    </div>
+                    <div class="border-t-2 border-gray-300 dark:border-gray-600 my-2"></div>
+                    <div class="flex justify-between text-base font-bold">
+                        <span class="text-gray-900 dark:text-white">Gaji Bersih:</span>
+                        <span class="text-green-600 dark:text-green-400" id="preview-gaji-bersih">Rp 0</span>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -115,6 +148,63 @@
 
     @push('scripts')
     <script>
+        // Format rupiah helper
+        function formatRupiah(angka) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
+        }
+
+        // Calculate total potongan dan gaji bersih
+        function calculateSalary() {
+            const gajiPokok = parseFloat(document.getElementById('gaji_pokok').value) || 0;
+            const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
+            
+            // Calculate potongan
+            let totalPotongan = 0;
+            let potonganDetails = [];
+            
+            document.querySelectorAll('.potongan-checkbox:checked').forEach(checkbox => {
+                const jenis = checkbox.getAttribute('data-jenis');
+                const nilai = parseFloat(checkbox.getAttribute('data-nilai'));
+                const nama = checkbox.getAttribute('data-nama');
+                
+                let nilaiPotongan = 0;
+                if (jenis === 'persentase') {
+                    nilaiPotongan = (gajiPokok * nilai) / 100;
+                } else {
+                    nilaiPotongan = nilai;
+                }
+                
+                totalPotongan += nilaiPotongan;
+                potonganDetails.push({
+                    nama: nama,
+                    nilai: nilaiPotongan
+                });
+            });
+            
+            // Calculate gaji bersih
+            const gajiBersih = Math.max(0, gajiPokok + tunjangan - totalPotongan);
+            
+            // Update hidden inputs
+            document.getElementById('total_potongan').value = totalPotongan.toFixed(2);
+            document.getElementById('gaji_bersih').value = gajiBersih.toFixed(2);
+            
+            // Update preview
+            document.getElementById('preview-gaji-pokok').textContent = formatRupiah(gajiPokok);
+            document.getElementById('preview-tunjangan').textContent = formatRupiah(tunjangan);
+            document.getElementById('preview-total-potongan').textContent = formatRupiah(totalPotongan);
+            document.getElementById('preview-gaji-bersih').textContent = formatRupiah(gajiBersih);
+            
+            // Update potongan details
+            const detailsDiv = document.getElementById('preview-potongan-details');
+            if (potonganDetails.length > 0) {
+                detailsDiv.innerHTML = potonganDetails.map(p => 
+                    `<div>• ${p.nama}: ${formatRupiah(p.nilai)}</div>`
+                ).join('');
+            } else {
+                detailsDiv.innerHTML = '<div class="text-gray-400 italic">Tidak ada potongan</div>';
+            }
+        }
+
         // Auto-fill gaji pokok dan tunjangan saat memilih karyawan
         document.getElementById('karyawan_id').addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
@@ -124,12 +214,26 @@
             if (gajiPokok && tunjangan) {
                 document.getElementById('gaji_pokok').value = gajiPokok;
                 document.getElementById('tunjangan').value = tunjangan;
+                calculateSalary();
             } else {
                 // Reset jika tidak ada data
                 document.getElementById('gaji_pokok').value = '';
                 document.getElementById('tunjangan').value = '0';
+                calculateSalary();
             }
         });
+
+        // Recalculate saat gaji pokok atau tunjangan berubah
+        document.getElementById('gaji_pokok').addEventListener('input', calculateSalary);
+        document.getElementById('tunjangan').addEventListener('input', calculateSalary);
+
+        // Recalculate saat potongan checkbox berubah
+        document.querySelectorAll('.potongan-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', calculateSalary);
+        });
+
+        // Initial calculation
+        calculateSalary();
     </script>
     @endpush
 </x-app-layout>

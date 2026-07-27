@@ -15,15 +15,12 @@ class PenggajianSeeder extends Seeder
         $karyawans = Karyawan::with('jabatan')->get();
         $potongans = Potongan::where('status_aktif', true)->get();
 
-        // Distribusi status sesuai requirement:
-        // Draft: 8, Diproses: 10, Disetujui: 10, Dibayar: 15, Ditolak: 4, Dibatalkan: 3
+        // Distribusi status - hanya 3 status resmi:
+        // Draft: 10, Final: 15, Dibayar: 25
         $statusDistribution = array_merge(
-            array_fill(0, 8, 'draft'),
-            array_fill(0, 10, 'diproses'),
-            array_fill(0, 10, 'disetujui'),
-            array_fill(0, 15, 'dibayar'),
-            array_fill(0, 4, 'ditolak'),
-            array_fill(0, 3, 'dibatalkan')
+            array_fill(0, 10, 'draft'),
+            array_fill(0, 15, 'final'),
+            array_fill(0, 25, 'dibayar')
         );
 
         shuffle($statusDistribution);
@@ -121,32 +118,19 @@ class PenggajianSeeder extends Seeder
                 'Data penggajian masih dalam proses verifikasi.',
                 'Menunggu data absensi final.',
                 'Draft penggajian bulan ini.',
+                'Data masih dapat diedit dan diverifikasi.',
             ],
-            'diproses' => [
-                'Sedang diverifikasi oleh HRD.',
-                'Dalam proses perhitungan ulang.',
-                'Menunggu approval supervisor.',
-            ],
-            'disetujui' => [
-                'Telah disetujui, menunggu proses pembayaran.',
-                'Siap untuk dibayarkan.',
-                'Approved oleh Manager.',
+            'final' => [
+                'Data telah dikunci dan siap diproses.',
+                'Menunggu proses pembayaran.',
+                'Telah diverifikasi dan disetujui.',
+                'Data penggajian final, tidak dapat diubah.',
             ],
             'dibayar' => [
                 'Gaji telah ditransfer ke rekening karyawan.',
                 'Pembayaran berhasil dilakukan.',
                 'Transfer gaji sudah diproses.',
-            ],
-            'ditolak' => [
-                'Data absensi tidak valid, perlu perbaikan.',
-                'Potongan belum diverifikasi dengan benar.',
-                'Nominal tidak sesuai dengan data HR.',
-                'Menunggu revisi dari bagian keuangan.',
-            ],
-            'dibatalkan' => [
-                'Penggajian dibatalkan karena duplikasi data.',
-                'Salah periode penggajian.',
-                'Data dibatalkan oleh admin.',
+                'Pembayaran telah selesai.',
             ],
         ];
 

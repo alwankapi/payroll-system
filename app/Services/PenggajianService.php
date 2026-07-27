@@ -307,10 +307,10 @@ class PenggajianService
      */
     public function updateStatus(Penggajian $penggajian, string $status): Penggajian
     {
-        // Validasi status value - support 6 status
-        $validStatuses = ['draft', 'diproses', 'disetujui', 'dibayar', 'ditolak', 'dibatalkan'];
+        // Validasi status value - hanya 3 status resmi
+        $validStatuses = ['draft', 'final', 'dibayar'];
         if (!in_array($status, $validStatuses)) {
-            throw new Exception('Status tidak valid. Harus salah satu dari: ' . implode(', ', $validStatuses));
+            throw new Exception('Status tidak valid. Harus salah satu dari: draft, final, dibayar');
         }
 
         // Validasi workflow status
@@ -322,13 +322,13 @@ class PenggajianService
         }
 
         // Validasi perubahan status yang diizinkan
+        // draft = data masih dapat diedit
+        // final = data telah dikunci
+        // dibayar = gaji telah dibayarkan
         $allowedTransitions = [
-            'draft' => ['diproses', 'dibatalkan'], 
-            'diproses' => ['disetujui', 'ditolak', 'draft'],
-            'disetujui' => ['dibayar', 'diproses'],
+            'draft' => ['final'],
+            'final' => ['dibayar', 'draft'], // bisa rollback ke draft atau lanjut dibayar
             'dibayar' => [], // final state, tidak bisa diubah
-            'ditolak' => ['draft', 'diproses'],
-            'dibatalkan' => ['draft'],
         ];
 
         if (!isset($allowedTransitions[$currentStatus]) || 
