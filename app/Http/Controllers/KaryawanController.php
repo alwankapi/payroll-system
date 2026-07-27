@@ -167,22 +167,25 @@ class KaryawanController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * If employee has payment history, deactivate instead of delete
      */
     public function destroy(Karyawan $karyawan): RedirectResponse
     {
         try {
-            // Cek apakah karyawan memiliki riwayat penggajian
-            $hasPenggajian = $karyawan->penggajians()->exists();
-
-            if ($hasPenggajian) {
-                return redirect()
-                    ->back()
-                    ->with('error', 'Karyawan tidak dapat dihapus karena memiliki riwayat penggajian. Ubah status sebagai gantinya.');
-            }
-
             DB::beginTransaction();
 
-            // Hapus user terkait (cascade)
+            // Jika karyawan memiliki riwayat penggajian, nonaktifkan saja
+            if ($karyawan->hasPaymentHistory()) {
+                $karyawan->update(['is_active' => false]);
+                
+                DB::commit();
+
+                return redirect()
+                    ->route('karyawan.index')
+                    ->with('success', 'Karyawan berhasil dinonaktifkan karena memiliki riwayat penggajian.');
+            }
+
+            // Jika tidak ada riwayat penggajian, hapus permanent
             $karyawan->delete();
 
             DB::commit();

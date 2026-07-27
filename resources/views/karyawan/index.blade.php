@@ -36,8 +36,9 @@
                         <div class="w-full sm:w-48">
                             <select name="status" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm">
                                 <option value="">Semua Status</option>
-                                <option value="aktif" {{ request('status') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="nonaktif" {{ request('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                <option value="tetap" {{ request('status') === 'tetap' ? 'selected' : '' }}>Tetap</option>
+                                <option value="kontrak" {{ request('status') === 'kontrak' ? 'selected' : '' }}>Kontrak</option>
+                                <option value="magang" {{ request('status') === 'magang' ? 'selected' : '' }}>Magang</option>
                             </select>
                         </div>
                     </div>
@@ -98,7 +99,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $karyawan->statusBadgeClass() }}">
-                                    {{ $karyawan->statusLabel() }}
+                                    {{ $karyawan->fullStatusLabel() }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -152,7 +153,7 @@
     @push('scripts')
     <script>
         function confirmDelete(id, name) {
-            if (confirm(`Apakah Anda yakin ingin menghapus karyawan "${name}"?\n\nPeringatan: Jika karyawan ini memiliki riwayat penggajian, penghapusan akan gagal.`)) {
+            if (confirm(`Apakah Anda yakin ingin menghapus karyawan "${name}"?\n\nCatatan: Jika karyawan memiliki riwayat penggajian, sistem akan menonaktifkan karyawan (bukan menghapus).`)) {
                 document.getElementById('delete-form-' + id).submit();
             }
         }

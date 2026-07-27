@@ -19,10 +19,12 @@ class Karyawan extends Model
         'tanggal_masuk',
         'no_rekening',
         'status_karyawan',
+        'is_active',
     ];
 
     protected $casts = [
         'tanggal_masuk' => 'date',
+        'is_active' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -78,12 +80,45 @@ class Karyawan extends Model
      */
     public function statusBadgeClass(): string
     {
+        // If not active, show red badge regardless of employment type
+        if (!$this->is_active) {
+            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+        }
+
         return match($this->status_karyawan) {
             'tetap' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
             'kontrak' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
             'magang' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
             default => 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
         };
+    }
+
+    /**
+     * Get active status label
+     */
+    public function activeStatusLabel(): string
+    {
+        return $this->is_active ? 'Aktif' : 'Nonaktif';
+    }
+
+    /**
+     * Get combined badge label (employment type + active status)
+     */
+    public function fullStatusLabel(): string
+    {
+        if (!$this->is_active) {
+            return 'Nonaktif';
+        }
+        
+        return $this->statusLabel();
+    }
+
+    /**
+     * Check if has payment history (untuk validasi delete)
+     */
+    public function hasPaymentHistory(): bool
+    {
+        return $this->penggajians()->exists();
     }
 
     protected function nik(): Attribute
