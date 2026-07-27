@@ -171,10 +171,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         // GET: Export laporan to PDF
         Route::get('/export-pdf', [LaporanController::class, 'exportPdf'])
             ->name('exportPdf');
-        
-        // GET: Export laporan to Excel
-        Route::get('/export-excel', [LaporanController::class, 'exportExcel'])
-            ->name('exportExcel');
     });
 });
 

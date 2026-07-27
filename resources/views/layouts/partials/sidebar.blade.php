@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 
-                <li x-data="{ open: {{ request()->is('jabatan*') || request()->is('karyawan*') || request()->is('potongan*') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->is('jabatan*') || request()->is('karyawan*') ? 'true' : 'false' }} }">
                     <button @click="open = !open" type="button" 
                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -88,19 +88,10 @@
                                 <span class="ml-3">Karyawan</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('potongan.index') }}" 
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->routeIs('potongan.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="ml-3">Potongan</span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 
-                <li x-data="{ open: {{ request()->is('penggajian*') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->is('penggajian*') || request()->is('potongan*') ? 'true' : 'false' }} }">
                     <button @click="open = !open" type="button" 
                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -130,6 +121,15 @@
                                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-3">Generate Bulk</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('potongan.index') }}" 
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->routeIs('potongan.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-3">Potongan</span>
                             </a>
                         </li>
                     </ul>

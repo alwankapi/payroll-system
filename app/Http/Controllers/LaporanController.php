@@ -6,8 +6,6 @@ use App\Models\Penggajian;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\LaporanPenggajianExport;
 
 class LaporanController extends Controller
 {
@@ -118,22 +116,5 @@ class LaporanController extends Controller
         $filename = 'laporan-penggajian-' . date('Ymd-His') . '.pdf';
         
         return $pdf->download($filename);
-    }
-
-    /**
-     * Export laporan ke Excel
-     */
-    public function exportExcel(Request $request)
-    {
-        $filters = [
-            'bulan' => $request->bulan,
-            'tahun' => $request->tahun,
-            'jabatan_id' => $request->jabatan_id,
-            'status' => $request->status,
-        ];
-
-        $filename = 'laporan-penggajian-' . date('Y-m-d-His') . '.xlsx';
-        
-        return Excel::download(new LaporanPenggajianExport($filters), $filename);
     }
 }
